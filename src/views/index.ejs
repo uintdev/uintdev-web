@@ -45,9 +45,8 @@
                         <div class="about">Developer &bull; Designer &bull; Security</div>
                         <div class="button-container">
                             <% const contact = require('../data/contact.json') %>
-                            <% let contactEntry = contact %>
-                            <% for (let i = 0; i < contactEntry.length; i++) { %>
-                                <a href="<%= contactEntry[i].url %>" class="button-link" title="<%= contactEntry[i].name %>"><%= contactEntry[i].name %></a>
+                            <% for (let i = 0; i < contact.length; i++) { %>
+                                <a href="<%= contact[i].url %>" class="button-link" title="<%= contact[i].name %>"><%= contact[i].name %></a>
                             <% } %>
                         </div>
                     </div>
@@ -77,19 +76,19 @@
                 <div class="content-desc"><%= project.metadata.description %></div>
                 <div class="content-block">
                     <div class="card-container">
-                        <% project.list.forEach(function(projectEntry) { %>
-                        <a class="card" href="<%= projectEntry.url %>">
+                        <% for (let i = 0; i < project.list.length; i++) { %>
+                        <a class="card" href="<%= project.list[i].url %>">
                             <div class="project-info">
-                                <div class="name"><%= projectEntry.name %></div>
+                                <div class="name"><%= project.list[i].name %></div>
                                 <div class="tag-container">
-                                    <% projectEntry.tags.forEach(function(tag) { %>
-                                        <span class="tag"><%= tag %></span>
-                                    <% }); %>
+                                    <% for (let ii = 0; ii < project.list[i].tags.length; ii++) { %>
+                                        <span class="tag"><%= project.list[i].tags[ii] %></span>
+                                    <% } %>
                                 </div>
-                                <div class="description"><%= projectEntry.description %></div>
+                                <div class="description"><%= project.list[i].description %></div>
                             </div>
                         </a>
-                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </section>
@@ -99,15 +98,15 @@
                 <div class="content-desc"><%= blog.metadata.description %></div>
                 <div class="content-block">
                     <div class="card-container">
-                        <% blog.posts.forEach(function(blogEntry) { %>
-                        <a class="card" href="<%= blog.metadata.base + blogEntry.link %>">
+                        <% for (let i = 0; i < blog.posts.length; i++) { %>
+                        <a class="card" href="<%= blog.metadata.base + blog.posts[i].link %>">
                             <div class="blog-info">
-                                <div class="title"><%= blogEntry.title %></div>
-                                <div class="description"><%= blogEntry.description %></div>
-                                <div class="metadata"><%= blogEntry.metadata %></div>
+                                <div class="title"><%= blog.posts[i].title %></div>
+                                <div class="description"><%= blog.posts[i].description %></div>
+                                <div class="metadata"><%= blog.posts[i].metadata %></div>
                             </div>
                         </a>
-                        <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </section>
