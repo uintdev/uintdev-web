@@ -2,7 +2,7 @@
   "name": "uintdev",
   "version": "2.6.0",
   "description": "Main website",
-  "main": "index.js",
+  "main": "index.ts",
   "type": "module",
   "scripts": {
     "build": "bun run fetch_blog.ts && rspack build",
@@ -23,15 +23,6 @@
     "@rspack/cli": "^2.0.5",
     "@rspack/core": "^2.0.5",
     "@rspack/dev-server": "^2.0.3",
-    "html-webpack-plugin": "^5.6.7",
-    "html-loader": "^5.1.0",
-    "css-loader": "^7.1.4",
-    "sass-loader": "^16.0.8",
-    "sass": "^1.100.0",
-    "typescript": "^6.0.3"
-  },
-  "trustedDependencies": [
-    "@parcel/watcher",
-    "esbuild"
-  ]
+    "html-webpack-plugin": "^5.6.7"
+  }
 }
