@@ -8,7 +8,7 @@ This website is hosted using Cloudflare Workers.
 
 ### CLI
 
-This mainly uses the Bun runtime. Node.js has to still be installed due to Webpack being hardcoded to use it.
+This mainly uses the Bun runtime.
 In the case of Cloudflare Workers, it offers a Node compatibility layer that effectively acts like Node.js down to the name.
 
 ```bash

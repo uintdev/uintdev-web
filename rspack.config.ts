@@ -1,14 +1,11 @@
 import path from "path";
-import HtmlWebPackPlugin from "html-webpack-plugin";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import TerserPlugin from "terser-webpack-plugin";
-import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
-import CopyPlugin from "copy-webpack-plugin";
-
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import { rspack, type Configuration } from "@rspack/core";
 import { fileURLToPath } from "url";
+
 const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
 
-const configBuild = {
+const configBuild: Configuration = {
   entry: {
     main: "./src/index.ts",
   },
@@ -21,13 +18,15 @@ const configBuild = {
     filename: "[name].js",
     assetModuleFilename: "assets/[name][ext]",
     clean: true,
-    hashFunction: "sha256",
   },
   mode: "production",
   target: "web",
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin({}), new CssMinimizerPlugin()],
+    minimizer: [
+      new rspack.SwcJsMinimizerRspackPlugin(),
+      new rspack.LightningCssMinimizerRspackPlugin(),
+    ],
   },
   performance: {
     hints: false,
@@ -36,7 +35,16 @@ const configBuild = {
     rules: [
       {
         test: /\.ts$/,
-        use: "ts-loader",
+        use: {
+          loader: "builtin:swc-loader",
+          options: {
+            jsc: {
+              parser: {
+                syntax: "typescript",
+              },
+            },
+          },
+        },
         include: [path.resolve(__dirname, "src")],
       },
       {
@@ -51,33 +59,34 @@ const configBuild = {
         ],
       },
       {
-        // Store as files
         test: /\.(png|jpg)$/,
         type: "asset/resource",
       },
       {
-        // Loads vector and fonts in a base64 encoded URI
         test: /\.(svg|woff|woff2|eot|ttf)$/,
         type: "asset/inline",
       },
       {
-        // SASS/SCSS to CSS
         test: /\.s?css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: [
+          rspack.CssExtractRspackPlugin.loader,
+          "css-loader",
+          "sass-loader",
+        ],
       },
     ],
   },
   plugins: [
-    new HtmlWebPackPlugin({
+    new HtmlWebpackPlugin({
       template: "./src/views/index.ejs",
       filename: "./index.html",
       inject: false,
     }),
-    new MiniCssExtractPlugin({
+    new rspack.CssExtractRspackPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
-    new CopyPlugin({
+    new rspack.CopyRspackPlugin({
       patterns: [
         { from: "src/assets/data", to: "data/" },
         { from: "src/assets/pages", to: "./" },

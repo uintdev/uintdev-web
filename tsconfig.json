@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
+    "isolatedModules": true,
     "noImplicitAny": true,
     "module": "ESNext",
     "target": "ESNext",
