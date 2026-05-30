@@ -4,6 +4,7 @@
   "title": "uint.dev",
   "description": "Web and software developer. System administrator. Illustrator.",
   "url": "https://uint.dev/",
+  "favicon": "/assets/favicon.png",
   "theme": {
     "dark": "#1d1f21",
     "light": "#f0f0f0"

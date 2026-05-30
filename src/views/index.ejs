@@ -1,10 +1,7 @@
-<% const fs = require('fs') %>
-<% const process = require('process') %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <% const meta = require('../data/meta.json') %>
         <meta name="robots" content="nosnippet">
         <meta name="keywords" content="<%= meta.keywords %>">
         <meta name="author" content="<%= meta.name %>">
@@ -20,10 +17,16 @@
         <meta name="theme-color" content="<%= meta.theme.light %>" media="(prefers-color-scheme: light)">
         <title><%= meta.title %></title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="<%- require('../assets/img/main/favicon.png') %>">
-        <link rel="apple-touch-icon" href="<%- require('../assets/img/main/favicon.png') %>">
-        <link href="<%- htmlWebpackPlugin.files.css[0] %>" rel="stylesheet">
-        <script type="text/javascript" src="<%- htmlWebpackPlugin.files.js[0] %>"></script>
+        <link rel="icon" href="<%= meta.favicon %>">
+        <link rel="apple-touch-icon" href="<%= meta.favicon %>">
+        <% for tag in htmlRspackPlugin.tags.headTags { %>
+          <% if tag.tagName == "link" { %>
+            <%= toHtml(tag) %>
+          <% } %>
+          <% if tag.tagName == "script" { %>
+            <%= toHtml(tag) %>
+          <% } %>
+        <% } %>
     </head>
     <body>
         <header>
@@ -44,9 +47,8 @@
                         <div class="picture"></div>
                         <div class="about">Developer &bull; Designer &bull; Security</div>
                         <div class="button-container">
-                            <% const contact = require('../data/contact.json') %>
-                            <% for (let i = 0; i < contact.length; i++) { %>
-                                <a href="<%= contact[i].url %>" class="button-link" title="<%= contact[i].name %>"><%= contact[i].name %></a>
+                            <% for item in contact { %>
+                              <a href="<%= item.url %>"  class="button-link" title="<%= item.name %>"><%= item.name %></a>
                             <% } %>
                         </div>
                     </div>
@@ -56,56 +58,44 @@
                 <div class="content-title">About me</div>
                 <div class="content-block">
                     <div class="sub-info">
-                        <% // Get about contents %>
-                        <% var aboutData = 'unknown_data' %>
-                        <% const aboutPath = process.cwd() + '/src/data/about.html' %>
-                        <% try { %>
-                        <%     var readData = fs.readFileSync(aboutPath, 'utf8') %>
-                        <%     aboutData = readData %>
-                        <% } catch (e) { %>
-                        <%     console.error('Failed to access file:') %>
-                        <%     console.error(e) %>
-                        <% } %>
                         <%= aboutData %>
                     </div>
                 </div>
             </section>
             <section id="projects">
-                <% const project = require('../data/projects.json') %>
                 <div class="content-title"><%= project.metadata.title %></div>
                 <div class="content-desc"><%= project.metadata.description %></div>
                 <div class="content-block">
                     <div class="card-container">
-                        <% for (let i = 0; i < project.list.length; i++) { %>
-                        <a class="card" href="<%= project.list[i].url %>">
-                            <div class="project-info">
-                                <div class="name"><%= project.list[i].name %></div>
-                                <div class="tag-container">
-                                    <% for (let ii = 0; ii < project.list[i].tags.length; ii++) { %>
-                                        <span class="tag"><%= project.list[i].tags[ii] %></span>
-                                    <% } %>
+                        <% for item in project.list { %>
+                            <a href="<%= item.url %>" class="card">
+                                <div class="project-info">
+                                    <div class="name"><%= item.name %></div>
+                                    <div class="tag-container">
+                                        <% for tag in item.tags { %>
+                                            <span class="tag"><%= tag %></span>
+                                        <% } %>
+                                    </div>
+                                    <div class="description"><%= item.description %></div>
                                 </div>
-                                <div class="description"><%= project.list[i].description %></div>
-                            </div>
-                        </a>
+                            </a>
                         <% } %>
                     </div>
                 </div>
             </section>
             <section id="blog">
-                <% const blog = require('../data/blog.json') %>
                 <div class="content-title"><%= blog.metadata.title %></div>
                 <div class="content-desc"><%= blog.metadata.description %></div>
                 <div class="content-block">
                     <div class="card-container">
-                        <% for (let i = 0; i < blog.posts.length; i++) { %>
-                        <a class="card" href="<%= blog.metadata.base + blog.posts[i].link %>">
-                            <div class="blog-info">
-                                <div class="title"><%= blog.posts[i].title %></div>
-                                <div class="description"><%= blog.posts[i].description %></div>
-                                <div class="metadata"><%= blog.posts[i].metadata %></div>
-                            </div>
-                        </a>
+                        <% for post in blog.posts { %>
+                            <a class="card" href="<%= blog.metadata.base + post.link %>">
+                                <div class="blog-info">
+                                    <div class="title"><%= post.title %></div>
+                                    <div class="description"><%= post.description %></div>
+                                    <div class="metadata"><%= post.metadata %></div>
+                                </div>
+                            </a>
                         <% } %>
                     </div>
                 </div>
@@ -117,32 +107,16 @@
             </dialog>
         </main>
         <footer>
-            <% // Get (shortened) commit hash %>
-            <% var commitID = 'unknown_commit' %>
-            <% const commitPath = process.cwd() + '/.git/FETCH_HEAD' %>
-            <% try { %>
-            <%     var readData = fs.readFileSync(commitPath, 'utf8') %>
-            <%     commitID = readData %>
-            <%     var commitIDPartial = commitID.slice(0, 7) %>
-            <% } catch (e) { %>
-            <%     console.error('Failed to access file:') %>
-            <%     console.error(e) %>
-            <% } %>
-            <% // Construct URL to commit on GitHub %>
-            <% var commitURL = commitID.split("\x20") %>
-            <% commitURL = commitURL[commitURL.length - 1] %>
-            <% commitURL = commitURL.trim() %>
-            <% commitFull = commitID.split("\x09")[0] %>
-            <% // Output results %>
             <div class="content">
                 <div class="label">made with <span class="heart">&#10084;</span></div>
                 <a href="<%= commitURL %>/commit/<%= commitFull %>" title="View latest commit on GitHub" class="commit">
                     <span class="git-icon-container"><span class="git-icon"></span></span>
-                    <span class="commit-id">
-                        <%= commitIDPartial %>
-                    </span>
+                    <span class="commit-id"><%= commitIDPartial %></span>
                 </a>
             </div>
         </footer>
+        <% for tag in htmlRspackPlugin.tags.bodyTags { %>
+          <%= toHtml(tag) %>
+        <% } %>
     </body>
 </html>

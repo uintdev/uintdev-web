@@ -1,7 +1,8 @@
 import path from "path";
-import HtmlWebpackPlugin from "html-webpack-plugin";
 import { rspack, type Configuration } from "@rspack/core";
 import { fileURLToPath } from "url";
+import type { TemplateData } from "./src/views/template-data";
+import { getTemplateData } from "./src/views/template-data";
 
 const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
 
@@ -52,9 +53,7 @@ const configBuild: Configuration = {
         use: [
           {
             loader: "html-loader",
-            options: {
-              minimize: true,
-            },
+            options: { minimize: true },
           },
         ],
       },
@@ -77,10 +76,13 @@ const configBuild: Configuration = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({
+    new rspack.HtmlRspackPlugin({
       template: "./src/views/index.ejs",
       filename: "./index.html",
       inject: false,
+      templateParameters: (params: Record<string, any>): TemplateData => {
+        return { ...params, ...getTemplateData() };
+      },
     }),
     new rspack.CssExtractRspackPlugin({
       filename: "[name].css",
