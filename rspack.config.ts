@@ -1,8 +1,7 @@
 import path from "path";
 import { rspack, type Configuration } from "@rspack/core";
 import { fileURLToPath } from "url";
-import type { TemplateData } from "./src/views/template-data";
-import { getTemplateData } from "./src/views/template-data";
+import { getTemplateData, type TemplateData } from "./src/views/template-data";
 
 const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
 

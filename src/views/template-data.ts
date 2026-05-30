@@ -1,14 +1,18 @@
 import fs from "fs";
 
+interface CommitData {
+  commitIDPartial: string;
+  commitURL: string;
+  commitFull: string;
+}
+
 export interface TemplateData {
   meta: Object;
   contact: Object;
   project: Object;
   blog: Object;
   aboutData: string;
-  commitIDPartial: string;
-  commitURL: string;
-  commitFull: string;
+  commit: CommitData;
 }
 
 export function getTemplateData(): TemplateData {
@@ -47,14 +51,18 @@ export function getTemplateData(): TemplateData {
     console.error("Failed to access file:", e);
   }
 
+  let commit: CommitData = {
+    commitIDPartial,
+    commitURL,
+    commitFull,
+  };
+
   return {
     meta,
     contact,
     project,
     blog,
     aboutData,
-    commitIDPartial,
-    commitURL,
-    commitFull,
+    commit,
   };
 }
