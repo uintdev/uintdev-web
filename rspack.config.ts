@@ -1,12 +1,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
-import {
-  rspack,
-  type Configuration,
-  type Compiler,
-  type HtmlRspackPluginOptions,
-} from "@rspack/core";
+import { rspack, type Configuration, type Compiler } from "@rspack/core";
 import { getTemplateData, type TemplateData } from "./src/views/template-data";
 import { minify as htmlMinify } from "html-minifier-terser";
 
