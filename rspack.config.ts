@@ -1,9 +1,40 @@
 import path from "path";
-import { rspack, type Configuration } from "@rspack/core";
 import { fileURLToPath } from "url";
-import { getTemplateData, type TemplateData } from "./src/views/template-data";
-
 const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
+import {
+  rspack,
+  type Configuration,
+  type Compiler,
+  type HtmlRspackPluginOptions,
+} from "@rspack/core";
+import { getTemplateData, type TemplateData } from "./src/views/template-data";
+import { minify as htmlMinify } from "html-minifier-terser";
+
+const HtmlMinifyPlugin = {
+  apply(compiler: Compiler): void {
+    compiler.hooks.compilation.tap(
+      "HtmlMinifyPlugin",
+      (compilation: any): void => {
+        const hooks = rspack.HtmlRspackPlugin.getCompilationHooks(compilation);
+        hooks.beforeEmit.tapPromise(
+          "HtmlMinifyPlugin",
+          async (data: any): Promise<any> => {
+            data.html = await htmlMinify(data.html, {
+              collapseWhitespace: true,
+              removeComments: true,
+              removeRedundantAttributes: true,
+              removeEmptyAttributes: true,
+              removeOptionalTags: true,
+              minifyCSS: true,
+              minifyJS: true,
+            });
+            return data;
+          },
+        );
+      },
+    );
+  },
+};
 
 const configBuild: Configuration = {
   entry: {
@@ -93,6 +124,7 @@ const configBuild: Configuration = {
         { from: "src/assets/pages", to: "./" },
       ],
     }),
+    HtmlMinifyPlugin,
   ],
 };
 
