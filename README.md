@@ -1,18 +1,23 @@
 # uintdev web
 
-This is the source code of a JavaScript application behind bundling assets for the website [uint.dev](https://uint.dev/).
+This is the source code of a TypeScript application behind bundling assets for the website [uint.dev](https://uint.dev/).
 
-This website is hosted using Cloudflare Workers.
+Website is hosted using Cloudflare Workers.
 
 ## Setup
 
 ### CLI
 
-This mainly uses the Bun runtime.
-In the case of Cloudflare Workers, it offers a Node compatibility layer that effectively acts like Node.js down to the name.
+This uses the Bun runtime.
 
 ```bash
-bun update
+# Initial setup
+bun install
+
+# Serve results under development HTTP server with live reloading
+bun run dev
+
+# Static build output to `dist/` directory
 bun run build
 ```
 
