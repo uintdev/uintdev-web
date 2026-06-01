@@ -5,8 +5,8 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "build": "bun run fetch_blog.ts && bunx rspack build",
-    "dev": "bun run fetch_blog.ts && bunx rspack serve",
+    "build": "bun run fetch_blog.ts && rspack build",
+    "dev": "bun run fetch_blog.ts && rspack serve",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
