@@ -2,7 +2,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
 import { rspack, type Configuration, type Compiler } from "@rspack/core";
-import { getTemplateData, type TemplateData } from "./src/views/template-data";
+import { getTemplateData } from "./src/views/template-data";
 import { minify as htmlMinify } from "html-minifier-terser";
 
 const HtmlMinifyPlugin = {
@@ -105,9 +105,7 @@ const configBuild: Configuration = {
       template: "./src/views/index.ejs",
       filename: "./index.html",
       inject: false,
-      templateParameters: (params: Record<string, any>): TemplateData => {
-        return { ...params, ...getTemplateData() };
-      },
+      templateParameters: getTemplateData,
     }),
     new rspack.CssExtractRspackPlugin({
       filename: "[name].css",

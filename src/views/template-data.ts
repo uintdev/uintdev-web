@@ -1,5 +1,3 @@
-import fs from "fs";
-
 interface CommitData {
   commitIDPartial: string;
   commitURL: string;
@@ -15,54 +13,38 @@ export interface TemplateData {
   commit: CommitData;
 }
 
-export function getTemplateData(): TemplateData {
-  const meta: Object = JSON.parse(
-    fs.readFileSync("src/data/meta.json", "utf8"),
-  );
-  const contact: Object = JSON.parse(
-    fs.readFileSync("src/data/contact.json", "utf8"),
-  );
-  const project: Object = JSON.parse(
-    fs.readFileSync("src/data/projects.json", "utf8"),
-  );
-  const blog: Object = JSON.parse(
-    fs.readFileSync("src/data/blog.json", "utf8"),
-  );
-
-  let aboutData: string = "unknown_data";
-  const aboutPath: string = "src/data/about.html";
+const read: (path: string) => Promise<string> = async (
+  path: string,
+): Promise<string> => {
   try {
-    aboutData = fs.readFileSync(aboutPath, "utf8");
+    return await Bun.file(path).text();
   } catch (e) {
-    console.error("Failed to access file:", e);
+    throw new Error(
+      `Template data: failed to read "${path}" -- ${(e as Error).message}`,
+    );
   }
+};
 
-  let commitIDPartial: string = "unknown";
-  let commitURL: string = "";
-  let commitFull: string = "";
-  const commitPath: string = ".git/FETCH_HEAD";
-  try {
-    const readData: string = fs.readFileSync(commitPath, "utf8");
-    commitIDPartial = readData.slice(0, 7);
-    const parts: string[] = readData.split("\x20");
-    commitURL = parts[parts.length - 1].trim();
-    commitFull = readData.split("\x09")[0];
-  } catch (e) {
-    console.error("Failed to access file:", e);
-  }
+export async function getTemplateData(
+  params: Record<string, any>,
+): Promise<TemplateData & Record<string, any>> {
+  const [meta, contact, project, blog, aboutData, readData] = await Promise.all(
+    [
+      read("src/data/meta.json").then(JSON.parse),
+      read("src/data/contact.json").then(JSON.parse),
+      read("src/data/projects.json").then(JSON.parse),
+      read("src/data/blog.json").then(JSON.parse),
+      read("src/data/about.html"),
+      read(".git/FETCH_HEAD"),
+    ],
+  );
 
-  let commit: CommitData = {
-    commitIDPartial,
-    commitURL,
-    commitFull,
+  const parts: string[] = readData.split("\x20");
+  const commit: CommitData = {
+    commitIDPartial: readData.slice(0, 7),
+    commitURL: parts.at(-1)!.trim(),
+    commitFull: readData.split("\x09")[0],
   };
 
-  return {
-    meta,
-    contact,
-    project,
-    blog,
-    aboutData,
-    commit,
-  };
+  return { ...params, meta, contact, project, blog, aboutData, commit };
 }
