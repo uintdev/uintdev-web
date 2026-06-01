@@ -20,7 +20,7 @@ const read: (path: string) => string = (path: string): string => {
     return fs.readFileSync(path, "utf8");
   } catch (e) {
     throw new Error(
-      `Template data: failed to read "${path}" — ${(e as Error).message}`,
+      `[Template] failed to read "${path}": ${(e as Error).message}`,
     );
   }
 };
