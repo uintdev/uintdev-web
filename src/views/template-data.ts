@@ -15,7 +15,7 @@ export interface TemplateData {
   commit: CommitData;
 }
 
-const read: (path: string) => string = (path: string): string => {
+function readFile(path: string): string {
   try {
     return fs.readFileSync(path, "utf8");
   } catch (e) {
@@ -23,18 +23,18 @@ const read: (path: string) => string = (path: string): string => {
       `[Template] failed to read "${path}": ${(e as Error).message}`,
     );
   }
-};
+}
 
 export function getTemplateData(
   params: Record<string, any>,
 ): TemplateData & Record<string, any> {
-  const meta: object = JSON.parse(read("src/data/meta.json"));
-  const contact: object = JSON.parse(read("src/data/contact.json"));
-  const project: object = JSON.parse(read("src/data/projects.json"));
-  const blog: object = JSON.parse(read("src/data/blog.json"));
-  const aboutData: string = read("src/data/about.html");
+  const meta: object = JSON.parse(readFile("src/data/meta.json"));
+  const contact: object = JSON.parse(readFile("src/data/contact.json"));
+  const project: object = JSON.parse(readFile("src/data/projects.json"));
+  const blog: object = JSON.parse(readFile("src/data/blog.json"));
+  const aboutData: string = readFile("src/data/about.html");
 
-  const readData: string = read(".git/FETCH_HEAD");
+  const readData: string = readFile(".git/FETCH_HEAD");
   const parts: string[] = readData.split("\x20");
   return {
     ...params,
