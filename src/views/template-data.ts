@@ -27,7 +27,7 @@ function readFile(path: string): string {
 
 export function getTemplateData(
   params: Record<string, any>,
-): TemplateData & Record<string, any> {
+): Record<string, any> & TemplateData {
   const meta: object = JSON.parse(readFile("src/data/meta.json"));
   const contact: object = JSON.parse(readFile("src/data/contact.json"));
   const project: object = JSON.parse(readFile("src/data/projects.json"));
