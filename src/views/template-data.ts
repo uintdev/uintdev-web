@@ -34,8 +34,8 @@ export function getTemplateData(
   const blog: object = JSON.parse(readFile("src/data/blog.json"));
   const aboutData: string = readFile("src/data/about.html");
 
-  const readData: string = readFile(".git/FETCH_HEAD");
-  const parts: string[] = readData.split("\x20");
+  const gitData: string = readFile(".git/FETCH_HEAD");
+  const gitParts: string[] = gitData.split("\x20");
   return {
     ...params,
     meta,
@@ -44,9 +44,9 @@ export function getTemplateData(
     blog,
     aboutData,
     commit: {
-      commitIDPartial: readData.slice(0, 7),
-      commitURL: parts.at(-1)!.trim(),
-      commitFull: readData.split("\x09")[0],
+      commitIDPartial: gitData.slice(0, 7),
+      commitURL: gitParts.at(-1)!.trim(),
+      commitFull: gitData.split("\x09")[0],
     },
   };
 }
