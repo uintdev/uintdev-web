@@ -4,38 +4,33 @@ let themeOriginalColors: string[] = [];
 enum ThemeType {
   LIGHT = "light",
   DARK = "dark",
-  UNKNOWN = "unknown",
 }
 
 class Theme {
   public readonly themeMeta: string = 'meta[name="theme-color"]';
   private readonly themeOverride: string = "color-scheme";
-  private readonly themeDefault: string = ThemeType.DARK;
-  private readonly schemeType: Function = (schemeColor: string): string => {
-    return "(prefers-color-scheme: " + schemeColor + ")";
-  };
+  private readonly themeDefault: ThemeType = ThemeType.DARK;
+
+  private schemeType(scheme: ThemeType): string {
+    return `(prefers-color-scheme: ${scheme})`;
+  }
 
   /**
    * Get current theme
    * @method get
-   * @returns {string} Current theme value
+   * @returns {ThemeType} Current theme value
    */
-  private get(): string {
-    if (document.documentElement.hasAttribute(this.themeOverride)) {
-      return (
-        document.documentElement.getAttribute(this.themeOverride) ??
-        this.themeDefault
-      );
-    }
+  private get(): ThemeType {
+    const override: string | null = document.documentElement.getAttribute(
+      this.themeOverride,
+    );
+    if (override) return override as ThemeType;
 
     if (window.matchMedia) {
-      if (window.matchMedia(this.schemeType(ThemeType.DARK)).matches) {
+      if (window.matchMedia(this.schemeType(ThemeType.DARK)).matches)
         return ThemeType.DARK;
-      }
-
-      if (window.matchMedia(this.schemeType(ThemeType.LIGHT)).matches) {
+      if (window.matchMedia(this.schemeType(ThemeType.LIGHT)).matches)
         return ThemeType.LIGHT;
-      }
     }
 
     return this.themeDefault;
@@ -45,56 +40,39 @@ class Theme {
    * Toggle between light and dark themes
    * @method set
    */
-  public set(): void {
-    const currentTheme: string = this.get();
-    const nextTheme: ThemeType =
-      currentTheme === ThemeType.DARK ? ThemeType.LIGHT : ThemeType.DARK;
+  set(): void {
+    const next: ThemeType =
+      this.get() === ThemeType.DARK ? ThemeType.LIGHT : ThemeType.DARK;
 
-    const useSystemTheme: boolean =
-      window.matchMedia &&
-      window.matchMedia(this.schemeType(nextTheme)).matches;
-
-    if (useSystemTheme) {
+    if (window.matchMedia?.(this.schemeType(next)).matches) {
       document.documentElement.removeAttribute(this.themeOverride);
-
-      themeOriginalColors.forEach((color, index) => {
-        const element: HTMLElement | null =
-          document.querySelectorAll<HTMLElement>(this.themeMeta)[index];
-        if (element) {
-          element.setAttribute("content", color);
-        }
-      });
+      const metaTheme: NodeListOf<HTMLElement> =
+        document.querySelectorAll<HTMLElement>(this.themeMeta);
+      themeOriginalColors.forEach((color, i) =>
+        metaTheme[i]?.setAttribute("content", color),
+      );
     } else {
-      // Use explicit theme override
-      document.documentElement.setAttribute(this.themeOverride, nextTheme);
-
-      // Apply theme color to all meta elements
-      const themeColorIndex: number = nextTheme === ThemeType.DARK ? 0 : 1;
-      const themeColor: string = themeOriginalColors[themeColorIndex];
-
+      document.documentElement.setAttribute(this.themeOverride, next);
+      const colorIndex: number = next === ThemeType.DARK ? 0 : 1;
       document
         .querySelectorAll<HTMLElement>(this.themeMeta)
-        .forEach((element: HTMLElement): void => {
-          element.setAttribute("content", themeColor);
-        });
+        .forEach((el) =>
+          el.setAttribute("content", themeOriginalColors[colorIndex]),
+        );
     }
   }
 
-  private readonly executionRate: number = 250;
-  private executionLast: number = 0;
+  private readonly toggleRate: number = 250;
+  private toggleLast: number = 0;
 
   /**
    * Throttle theme toggle
-   * @returns {string}
+   * @returns {boolean
    */
   public rateLimit(): boolean {
-    let timeCurrent: number = Date.now();
-    let timeDifference: number = timeCurrent - this.executionLast;
-
-    if (timeDifference <= this.executionRate) return true;
-
-    this.executionLast = timeCurrent;
-
+    const now: number = Date.now();
+    if (now - this.toggleLast <= this.toggleRate) return true;
+    this.toggleLast = now;
     return false;
   }
 }
@@ -116,8 +94,7 @@ class UIController {
   private headerPresent: boolean = true;
   private headerDeadZoneTop: number = 100;
   private readonly headerHideClass: string = "hide";
-  // Check for MobileSafari
-  private readonly platformMobileSafari: boolean =
+  private readonly isMobileSafari: boolean =
     !CSS.supports("user-select: none") &&
     !window.matchMedia("(hover: hover)").matches;
 
@@ -129,69 +106,70 @@ class UIController {
   public header(): void {
     if (!this.headerPresent || this.overscrollDeadZone()) return;
 
-    const headerElement: HTMLElement | null =
+    const el: HTMLElement | null =
       document.querySelector<HTMLElement>("header");
-
-    if (!headerElement) {
-      console.error("Header missing -- suspending header UI controller");
+    if (!el) {
+      console.error("Header missing — suspending header UI controller");
       this.headerPresent = false;
       return;
     }
 
-    const currentScroll: number = window.scrollY;
-    const scrollUp: boolean = currentScroll <= this.headerPast;
-    const scrollDownPastThreshold: boolean =
-      currentScroll > this.headerDeadZoneTop && currentScroll > this.headerPast;
+    const y: number = window.scrollY;
+    const scrollingUp: boolean = y <= this.headerPast;
+    const scrollingDownPastThreshold: boolean =
+      y > this.headerDeadZoneTop && y > this.headerPast;
 
-    // Show header when scrolling up
-    if (!this.headerActive && scrollUp) {
+    if (!this.headerActive && scrollingUp) {
+      // Show header when scrolling up
       this.headerState = HeaderState.SHOW;
-      headerElement.classList.remove(this.headerHideClass);
+      el.classList.remove(this.headerHideClass);
       this.headerActive = true;
-    }
-    // Hide header when scrolling down past threshold
-    else if (this.headerActive && scrollDownPastThreshold) {
+    } else if (this.headerActive && scrollingDownPastThreshold) {
+      // Hide header when scrolling down past threshold
       this.headerState = HeaderState.HIDE;
-      headerElement.classList.add(this.headerHideClass);
+      el.classList.add(this.headerHideClass);
       this.headerActive = false;
-    }
-    // Hide header on initial scroll after page load
-    else if (
+    } else if (
       !this.headerActive &&
-      currentScroll > 0 &&
+      y > 0 &&
       this.headerState !== HeaderState.ONLOAD
     ) {
+      // Hide header on initial scroll after page load
       this.headerState = HeaderState.ONLOAD;
-      headerElement.classList.add(this.headerHideClass);
+      el.classList.add(this.headerHideClass);
     }
 
-    this.headerPast = currentScroll;
+    this.headerPast = y;
   }
 
   /**
    * Smooth scroll transition
    * @method scroll
-   * @param element {string} HTML element ID or query selector
+   * @param selector {string} HTML element ID or query selector
    * @returns {void}
    */
-  public scroll(element: string): void {
-    const reduceMotion: boolean =
-      window.matchMedia?.("(prefers-reduced-motion)")?.matches ?? false;
-    const elementObject: HTMLElement | null =
-      document.getElementById(element) ??
-      document.querySelector<HTMLElement>(element);
-
-    if (!elementObject) {
-      console.error("Cannot scroll to nonexistent element: " + element);
+  public scroll(selector: string): void {
+    const el: HTMLElement | null =
+      document.getElementById(selector) ??
+      document.querySelector<HTMLElement>(selector);
+    if (!el) {
+      console.error(`Cannot scroll to nonexistent element: ${selector}`);
       return;
     }
-
     window.scrollTo({
-      top: elementObject.offsetTop,
-      behavior: reduceMotion ? "instant" : "smooth",
+      top: el.offsetTop,
+      behavior: window.matchMedia?.("(prefers-reduced-motion)")?.matches
+        ? "instant"
+        : "smooth",
     });
   }
 
+  /**
+   * Scroll event handler
+   * @method scrollHandler
+   * @param event {Event} Event data
+   * @returns {void}
+   */
   public scrollHandler(event: Event): void {
     event.preventDefault();
     this.scroll("body");
@@ -203,15 +181,11 @@ class UIController {
    * @returns {boolean} true if overscroll should be prevented
    */
   private overscrollDeadZone(): boolean {
-    const currentPosition: number = window.scrollY;
-    const scrollHeight: number = document.documentElement.scrollHeight;
-    const clientHeight: number = document.documentElement.clientHeight;
-    const scrollableHeight: number = scrollHeight - clientHeight;
-
-    const deadZone: number = this.platformMobileSafari ? 110 : 0;
-    const distanceToBottom: number = scrollableHeight - currentPosition;
-
-    return distanceToBottom <= deadZone;
+    const deadZone: number = this.isMobileSafari ? 110 : 0;
+    const scrollable: number =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    return scrollable - window.scrollY <= deadZone;
   }
 }
 
@@ -254,81 +228,55 @@ const eventController: EventController = new EventController();
 
 class DialogController {
   /**
+   * Dialog box element selection
+   * @method dialog
+   * @returns {HTMLDialogElement | null}
+   */
+  private get dialog(): HTMLDialogElement | null {
+    return document.querySelector<HTMLDialogElement>("dialog");
+  }
+
+  /**
    * Compose a dialog box
    * @method open
    * @param title {string} Title of dialog
    * @param body {string} Body of dialog
    * @returns {void}
    */
-  public open(title: string, body: string): void {
-    const dialogMain: HTMLDialogElement | null =
-      document.querySelector<HTMLDialogElement>("dialog");
-
-    if (!dialogMain) {
+  open(title: string, body: string): void {
+    const dialogElement: HTMLDialogElement | null = this.dialog;
+    if (!dialogElement) {
       console.error("Cannot build message without dialog being present");
       return;
     }
 
-    let dialogTitle: string = title;
-    let dialogDetails: string = body;
-
-    dialogDetails = dialogDetails
+    const sanitized: string = body
       .replaceAll('"', "&quot;")
       .replaceAll("\n", "<br>");
-
-    const dialogClose: HTMLElement | null =
-      dialogMain.querySelector<HTMLElement>(".close");
-    const dialogHeader: HTMLElement | null =
-      dialogMain.querySelector<HTMLElement>(".header");
-    const dialogBody: HTMLElement | null =
-      dialogMain.querySelector<HTMLElement>(".body");
-
-    if (dialogHeader) {
-      dialogHeader.innerHTML = dialogTitle;
-    }
-    if (dialogBody) {
-      dialogBody.innerHTML = dialogDetails;
-    }
-
-    dialogMain.showModal();
-
-    if (!dialogClose) {
-      console.error("Dialog missing close button");
-      return;
-    }
-
-    dialogClose.blur();
+    dialogElement.querySelector<HTMLElement>(".header")!.innerHTML = title;
+    dialogElement.querySelector<HTMLElement>(".body")!.innerHTML = sanitized;
+    dialogElement.showModal();
+    dialogElement.querySelector<HTMLElement>(".close")?.blur();
   }
 
   /**
    * Close dialog box
    * @method open
-   * @param event {MouseEvent} Event
+   * @param event {MouseEvent} Mouse event
    * @returns {void}
    */
-  public close(event: MouseEvent): void {
+  close(event: MouseEvent): void {
     event.preventDefault();
-
-    const dialogMain: HTMLDialogElement | null =
-      document.querySelector<HTMLDialogElement>("dialog");
-
-    if (!dialogMain) {
+    const dialogElement: HTMLDialogElement | null = this.dialog;
+    if (!dialogElement) {
       console.error("Dialog not present while attempting to close");
       return;
     }
-
-    dialogMain.close();
-
-    const dialogHeader: HTMLElement | null =
-      dialogMain.querySelector<HTMLElement>(".header");
-    const dialogBody: HTMLElement | null =
-      dialogMain.querySelector<HTMLElement>(".body");
-
-    if (dialogHeader) {
-      dialogHeader.innerHTML = "";
-    }
-    if (dialogBody) {
-      dialogBody.innerHTML = "";
+    dialogElement.close();
+    for (const sel of [".header", ".body"]) {
+      const el: HTMLElement | null =
+        dialogElement.querySelector<HTMLElement>(sel);
+      if (el) el.innerHTML = "";
     }
   }
 }
@@ -355,71 +303,61 @@ class Egg {
 
   /**
    * Generate audio tone
-   * @method audioGen
+   * @method playTone
    * @returns {void}
    */
-  private audioGen(): void {
-    const audioContext: AudioContext = new AudioContext();
-
-    const oscillator: OscillatorNode = audioContext.createOscillator();
-    const gainNode: GainNode = audioContext.createGain();
+  private playTone(): void {
+    const ctx = new AudioContext();
+    const oscillator: OscillatorNode = ctx.createOscillator();
+    const gain: GainNode = ctx.createGain();
 
     oscillator.type = "triangle";
     oscillator.frequency.value = 90;
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
+    oscillator.connect(gain).connect(ctx.destination);
     oscillator.start();
 
-    gainNode.gain.exponentialRampToValueAtTime(
-      0.00001,
-      audioContext.currentTime + this.initAudioDuration / 1000,
-    );
-
-    oscillator.stop(
-      audioContext.currentTime + this.initAudioDuration / 1000 + 0.1,
-    );
+    const end: number = ctx.currentTime + this.initAudioDuration / 1000;
+    gain.gain.exponentialRampToValueAtTime(0.00001, end);
+    oscillator.stop(end + 0.1);
   }
 
+  /**
+   * Run payload
+   * @method payload
+   * @returns {void}
+   */
   private payload(): void {
     dialogController.open("Egg", "Here is some audio.");
-    this.audioGen();
+    this.playTone();
 
-    const audioController = new Audio(this.audioFile);
-    audioController.volume = 0.6;
-
-    setTimeout(async (): Promise<void> => {
+    const audio: HTMLAudioElement = new Audio(this.audioFile);
+    audio.volume = 0.6;
+    setTimeout(async () => {
       try {
-        const playPromise: Promise<void> = audioController.play();
-        if (playPromise !== undefined) {
-          await playPromise;
-        }
-      } catch (error) {
-        console.warn("Audio playback failed:", error);
+        await audio.play();
+      } catch (e) {
+        console.warn("Audio playback failed:", e);
       }
     }, this.initAudioDuration);
   }
 
   /**
-   * Handle easter egg key sequence detection
+   * Handle keyboard input for payload
    * @method initiate
-   * @param event {KeyboardEvent} Keyboard event
    * @returns {void}
    */
-  public initiate = (event: KeyboardEvent): void => {
+  initiate = (event: KeyboardEvent): void => {
     const key: string =
       event.key.length === 1 ? event.key.toUpperCase() : event.key;
-
     this.keysPressed.push(key);
 
-    const expectedKey: string = this.keysCombo[this.keysPressed.length - 1];
-    if (!expectedKey || key !== expectedKey) {
+    const expected: string = this.keysCombo[this.keysPressed.length - 1];
+    if (!expected || key !== expected) {
       this.keysPressed = [];
       return;
     }
 
-    if (this.keysPressed.join("") === this.keysCombo.join("")) {
+    if (this.keysPressed.length === this.keysCombo.length) {
       this.keysPressed = [];
       document.removeEventListener("keydown", this.initiate);
       this.payload();
@@ -442,19 +380,14 @@ document.addEventListener("DOMContentLoaded", (): void => {
     const target = event.target as HTMLElement;
 
     // Handle theme toggle
-    if (target.matches(eventController.selector)) {
-      eventController.init(event);
-    }
+    if (target.matches(eventController.selector)) eventController.init(event);
 
     // Handle header scroll
-    if (target.matches("header .title")) {
-      uiController.scrollHandler(event);
-    }
+    if (target.matches("header .title")) uiController.scrollHandler(event);
 
     // Handle dialog close
-    if (target.matches("dialog .close")) {
+    if (target.matches("dialog .close"))
       dialogController.close(event as MouseEvent);
-    }
   });
 
   try {
@@ -469,10 +402,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
 
   try {
     uiController.header();
-
-    window.onscroll = (): void => {
-      uiController.header();
-    };
+    window.onscroll = (): void => uiController.header();
   } catch (error) {
     console.error("Failed to initialize UI components:", error);
   }
