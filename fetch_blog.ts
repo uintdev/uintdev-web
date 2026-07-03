@@ -2,9 +2,9 @@ import path from "path";
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-const BLOG_URL = "https://blog.uint.dev";
-const SELECTOR = ".listing .card";
-const POST_LIMIT = 5;
+const BLOG_URL: string = "https://blog.uint.dev";
+const SELECTOR: string = ".listing .card";
+const POST_LIMIT: number = 5;
 const BLOG_TITLE: string = "Recent Posts";
 const BLOG_DESCRIPTION: string = `View all <a href="${BLOG_URL}">here</a>.`;
 
