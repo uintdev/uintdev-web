@@ -298,7 +298,6 @@ class Egg {
     "ArrowRight",
     "B",
     "A",
-    "Enter",
   ];
 
   /**
