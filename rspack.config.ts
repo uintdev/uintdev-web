@@ -51,7 +51,9 @@ const configBuild: Configuration = {
     minimize: true,
     minimizer: [
       new rspack.SwcJsMinimizerRspackPlugin(),
-      new rspack.LightningCssMinimizerRspackPlugin(),
+      new rspack.LightningCssMinimizerRspackPlugin({
+        minimizerOptions: { targets: ["chrome >= 120", "firefox >= 120", "safari >= 17"] },
+      }),
     ],
   },
   performance: {
