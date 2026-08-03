@@ -1,4 +1,6 @@
 @use "sass:meta";
+@use "mixins";
+
 section {
     border-top: 1px solid rgba(var(--color-primary), 0.2);
     padding: 40px 20px;
@@ -14,8 +16,7 @@ section {
         text-align: center;
         margin-bottom: 30px;
         max-width: 90%;
-        margin-left: auto;
-        margin-right: auto;
+        margin-inline: auto;
         font-weight: 300;
 
         a {
@@ -24,11 +25,8 @@ section {
     }
 
     .content-center {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
+        @include mixins.flex-center;
+        margin-inline: auto;
         width: 90%;
     }
 
@@ -60,8 +58,7 @@ section {
         .sub-info {
             height: 100%;
             max-width: 95%;
-            margin-left: auto;
-            margin-right: auto;
+            margin-inline: auto;
             font-size: 0.96rem;
             font-weight: 300;
 

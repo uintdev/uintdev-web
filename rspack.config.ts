@@ -1,33 +1,29 @@
+import { rspack, type Compiler, type Configuration } from "@rspack/core";
+import { minify as htmlMinify } from "html-minifier-terser";
 import path from "path";
 import { fileURLToPath } from "url";
-const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
-import { rspack, type Configuration, type Compiler } from "@rspack/core";
 import { getTemplateData } from "./src/views/template-data";
-import { minify as htmlMinify } from "html-minifier-terser";
+
+const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
+const htmlMinifyOptions = {
+  collapseWhitespace: true,
+  removeComments: true,
+  removeRedundantAttributes: true,
+  removeEmptyAttributes: true,
+  removeOptionalTags: true,
+  minifyCSS: true,
+  minifyJS: true,
+};
 
 const HtmlMinifyPlugin = {
   apply(compiler: Compiler): void {
-    compiler.hooks.compilation.tap(
-      "HtmlMinifyPlugin",
-      (compilation: any): void => {
-        const hooks = rspack.HtmlRspackPlugin.getCompilationHooks(compilation);
-        hooks.beforeEmit.tapPromise(
-          "HtmlMinifyPlugin",
-          async (data: any): Promise<any> => {
-            data.html = await htmlMinify(data.html, {
-              collapseWhitespace: true,
-              removeComments: true,
-              removeRedundantAttributes: true,
-              removeEmptyAttributes: true,
-              removeOptionalTags: true,
-              minifyCSS: true,
-              minifyJS: true,
-            });
-            return data;
-          },
-        );
-      },
-    );
+    compiler.hooks.compilation.tap("HtmlMinifyPlugin", (compilation: any): void => {
+      const hooks = rspack.HtmlRspackPlugin.getCompilationHooks(compilation);
+      hooks.beforeEmit.tapPromise("HtmlMinifyPlugin", async (data) => {
+        data.html = await htmlMinify(data.html, htmlMinifyOptions);
+        return data;
+      });
+    });
   },
 };
 
@@ -77,12 +73,7 @@ const configBuild: Configuration = {
       },
       {
         test: /\.html$/,
-        use: [
-          {
-            loader: "html-loader",
-            options: { minimize: true },
-          },
-        ],
+        use: [{ loader: "html-loader", options: { minimize: true } }],
       },
       {
         test: /\.(png|jpg)$/,
@@ -94,11 +85,7 @@ const configBuild: Configuration = {
       },
       {
         test: /\.s?css$/,
-        use: [
-          rspack.CssExtractRspackPlugin.loader,
-          "css-loader",
-          "sass-loader",
-        ],
+        use: [rspack.CssExtractRspackPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
@@ -109,10 +96,7 @@ const configBuild: Configuration = {
       inject: false,
       templateParameters: getTemplateData,
     }),
-    new rspack.CssExtractRspackPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css",
-    }),
+    new rspack.CssExtractRspackPlugin({ filename: "[name].css", chunkFilename: "[id].css" }),
     new rspack.CopyRspackPlugin({
       patterns: [
         { from: "src/assets/data", to: "data/" },

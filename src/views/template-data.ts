@@ -1,5 +1,8 @@
 import fs from "fs";
 
+type TemplateParams = Record<string, any>;
+type JsonObject = Record<string, any>;
+
 interface CommitData {
   commitIDPartial: string;
   commitURL: string;
@@ -7,10 +10,10 @@ interface CommitData {
 }
 
 export interface TemplateData {
-  meta: Object;
-  contact: Object;
-  project: Object;
-  blog: Object;
+  meta: JsonObject;
+  contact: JsonObject[];
+  project: JsonObject;
+  blog: JsonObject;
   aboutData: string;
   commit: CommitData;
 }
@@ -25,24 +28,21 @@ function readFile(path: string): string {
   }
 }
 
-export function getTemplateData(
-  params: Record<string, any>,
-): Record<string, any> & TemplateData {
-  const meta: object = JSON.parse(readFile("src/data/meta.json"));
-  const contact: object = JSON.parse(readFile("src/data/contact.json"));
-  const project: object = JSON.parse(readFile("src/data/projects.json"));
-  const blog: object = JSON.parse(readFile("src/data/blog.json"));
-  const aboutData: string = readFile("src/data/about.html");
+function readJson<T = JsonObject>(path: string): T {
+  return JSON.parse(readFile(path)) as T;
+}
 
+export function getTemplateData(params: TemplateParams): TemplateParams & TemplateData {
   const gitData: string = readFile(".git/FETCH_HEAD");
   const gitParts: string[] = gitData.split("\x20");
+
   return {
     ...params,
-    meta,
-    contact,
-    project,
-    blog,
-    aboutData,
+    meta: readJson("src/data/meta.json"),
+    contact: readJson<JsonObject[]>("src/data/contact.json"),
+    project: readJson("src/data/projects.json"),
+    blog: readJson("src/data/blog.json"),
+    aboutData: readFile("src/data/about.html"),
     commit: {
       commitIDPartial: gitData.slice(0, 7),
       commitURL: gitParts.at(-1)!.trim(),

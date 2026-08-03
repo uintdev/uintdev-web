@@ -8,11 +8,9 @@
 
     .button-link {
         color: rgba(var(--color-secondary), 1);
-        display: flex;
+        @include mixins.flex-center;
         font-size: 0.85rem;
         font-weight: 700;
-        align-items: center;
-        justify-content: center;
         @include mixins.unselectable;
         border-radius: 18px;
         background-color: rgba(var(--color-primary), 1);

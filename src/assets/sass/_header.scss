@@ -20,7 +20,7 @@ header {
     border: 1px solid rgba(var(--color-primary), 0.1);
     box-shadow:
         inset 0 0 20px rgba(var(--color-primary), 0.05),
-        rgba(0, 0, 0, 0.2) 0px 4px 20px;
+        rgba(0, 0, 0, 0.2) 0 4px 20px;
 
     &.hide {
         top: -100px;
@@ -64,11 +64,7 @@ header {
         }
 
         .button-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            align-items: center;
-            justify-content: center;
+            @include mixins.flex-center;
             @include mixins.unselectable;
             width: var(--header-icon-size);
             height: var(--header-icon-size);
@@ -101,9 +97,7 @@ header {
 
         .theme-invert {
             background-color: rgba(var(--color-primary), 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            @include mixins.flex-center;
             width: var(--header-icon-size);
             height: var(--header-icon-size);
             border-radius: var(--header-icon-size);
