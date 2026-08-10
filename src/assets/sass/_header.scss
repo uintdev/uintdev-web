@@ -27,12 +27,14 @@ header {
     }
 
     .title {
-        display: inline-block;
+        display: flex;
+        gap: 8px;
+        align-items: center;
         font-size: 14px;
         font-weight: 700;
-        padding: 13px 18px;
+        padding: 10px 16px;
         border-radius: 25px;
-        height: 20px;
+        height: 26px;
         background-color: rgba(var(--color-primary), 1);
         color: rgba(var(--color-secondary), 1);
         transition: background-color var(--interactive-transition-speed);
@@ -48,6 +50,19 @@ header {
         &:focus:not(:focus-visible) {
             outline: none;
             background-color: var(--color-secondary-inverted-focus);
+        }
+
+        .logo {
+            display: block;
+            height: 26px;
+            width: 26px;
+            background-color: rgba(var(--color-secondary), 1);
+            border-radius: 40px;
+            @include mixins.image-loader("header/logo.svg");
+        }
+
+        .text {
+            line-height: 2;
         }
     }
 

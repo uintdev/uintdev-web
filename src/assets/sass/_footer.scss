@@ -7,7 +7,7 @@ footer {
     padding-bottom: calc(50px + env(safe-area-inset-bottom));
     text-align: center;
     box-sizing: border-box;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: rgba(var(--color-third), 1);
 
     a {
@@ -39,48 +39,15 @@ footer {
             }
         }
 
-        .commit {
+        .right {
             display: flex;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 6px;
-            height: 100%;
-            justify-content: space-between;
+            gap: 18px;
             padding: 12px 16px;
-            border-radius: 6px;
-            color: rgba(var(--color-third), 1);
-            background-color: rgba(0, 0, 0, 0);
-            transition: background-color 0.1s;
 
-            &:focus {
-                background-color: rgba(var(--color-secondary-focus), 1);
-            }
-
-            @media (hover: hover) {
-                &:hover {
-                    background-color: rgba(var(--color-secondary-hover), 1);
-                }
-            }
-
-            .git-icon-container {
-                @include mixins.flex-center;
-                @include mixins.unselectable;
-                width: 0.95rem;
-                height: 0.95rem;
-                box-sizing: border-box;
-                align-self: center;
-
-                .git-icon {
-                    display: inline-block;
-                    @include mixins.image-loader("footer/git.svg");
-                    background-color: rgba(var(--color-third), 1);
-                    height: 15px;
-                    width: 100%;
-                }
-            }
-
-            .commit-id {
-                display: inline-block;
+            a {
+                color: rgba(var(--color-primary), 0.8);
+                text-decoration: underline;
+                text-decoration-color: rgba(var(--color-primary), 0.4);
             }
         }
     }

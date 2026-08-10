@@ -30,7 +30,7 @@
     </head>
     <body>
         <header>
-            <a href="#" class="title" title="Title -- press to scroll to top">uint.dev</a>
+            <a href="#" class="title" title="Title - press to scroll to top"><div class="logo"></div><span class="text"><%= meta.name %></span></a>
             <span class="options">
                 <a href="https://blog.uint.dev/" class="button-link" title="Blog">
                     <span class="blog-icon"></span>
@@ -41,25 +41,16 @@
             </span>
         </header>
         <main>
-            <div class="init-blk">
-                <div class="splash-blk">
-                    <div class="splash-info">
-                        <div class="picture"></div>
-                        <div class="about">SWE &bull; Designer &bull; Security</div>
-                        <div class="button-container">
-                            <% for item in contact { %>
-                              <a href="<%= item.url %>"  class="button-link" title="<%= item.name %>"><%= item.name %></a>
-                            <% } %>
-                        </div>
-                    </div>
+            <section id="about" class="header-margin">
+                <div class="content-title content-title-large">
+                    Hi, my name's André.
+                    <br>
+                    Software engineer based in
+                    <br>
+                    Europe.
                 </div>
-            </div>
-            <section id="about">
-                <div class="content-title">About me</div>
-                <div class="content-block">
-                    <div class="sub-info">
-                        <%= aboutData %>
-                    </div>
+                <div class="content-desc content-desc-large">
+                    <%= aboutData %>
                 </div>
             </section>
             <section id="projects">
@@ -103,16 +94,20 @@
             <dialog>
                 <div class="header"></div>
                 <div class="body"></div>
-                <a href="#" class="close">Close</a>
+                <a href="#" class="close">close</a>
             </dialog>
         </main>
         <footer>
             <div class="content">
                 <div class="label">made with <span class="heart">&#10084;</span></div>
-                <a href="<%= commit.commitURL %>/commit/<%= commit.commitFull %>" title="View latest commit on GitHub" class="commit">
-                    <span class="git-icon-container"><span class="git-icon"></span></span>
-                    <span class="commit-id"><%= commit.commitIDPartial %></span>
-                </a>
+                <span class="right">
+                    <% for item in contact { %>
+                        <a href="<%= item.url %>" title="<%= item.name %>"><%= item.name %></a>
+                    <% } %>
+                    <a href="<%= commit.commitURL %>/commit/<%= commit.commitFull %>" title="View latest commit on GitHub">
+                        <%= commit.commitIDPartial %>
+                    </a>
+                </span>
             </div>
         </footer>
         <% for tag in htmlRspackPlugin.tags.bodyTags { %>

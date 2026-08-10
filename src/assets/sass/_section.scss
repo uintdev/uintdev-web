@@ -1,27 +1,43 @@
 @use "sass:meta";
 @use "mixins";
 
+.header-margin {
+    margin-top: 120px;
+    border-top: unset;
+}
+
 section {
     border-top: 1px solid rgba(var(--color-primary), 0.2);
     padding: 40px 20px;
 
     .content-title {
-        text-align: center;
         font-size: 1.8rem;
         margin-bottom: 20px;
+        max-width: 95%;
+        margin-inline: auto;
         font-weight: 600;
     }
 
+    .content-title-large {
+        font-weight: 700;
+        font-size: 2rem;
+    }
+
     .content-desc {
-        text-align: center;
         margin-bottom: 30px;
-        max-width: 90%;
+        max-width: 95%;
         margin-inline: auto;
         font-weight: 300;
 
         a {
             text-decoration: underline;
+            text-decoration-color: rgba(var(--color-primary), 0.4);
         }
+    }
+
+    .content-desc-large {
+        margin-bottom: 10px;
+        font-size: 1.08rem;
     }
 
     .content-center {

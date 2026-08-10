@@ -296,7 +296,7 @@ class Egg {
    * @returns {void}
    */
   private payload(): void {
-    dialogController.open("Egg", "Here is some audio.");
+    dialogController.open("egg", "Here is some audio.");
     this.playTone();
 
     const audio: HTMLAudioElement = new Audio(this.audioFile);
