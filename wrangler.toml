@@ -9,9 +9,6 @@ routes = [
 workers_dev = false
 preview_urls = false
 
-[vars]
-BUN_VERSION = "1.4.0"
-
 [assets]
 directory = "./dist/"
 not_found_handling = "404-page"
