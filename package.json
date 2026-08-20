@@ -27,7 +27,8 @@
     "html-minifier-terser": "^7.2.0",
     "sass": "^1.103.0",
     "sass-loader": "^17.0.0",
-    "typescript": "^6.0.3",
-    "wrangler": "^4.124.0"
+    "typescript": "^7.0.2",
+    "wrangler": "^4.124.0",
+    "@types/html-minifier-terser": "^7.0.2"
   }
 }
