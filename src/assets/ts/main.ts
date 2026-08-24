@@ -72,6 +72,7 @@ enum HeaderState {
 }
 
 class UIController {
+  private headerElement: HTMLElement | null = document.querySelector<HTMLElement>("header");
   private headerPast: number = window.scrollY;
   private headerActive: boolean = false;
   private headerState: HeaderState = HeaderState.ONLOAD;
@@ -89,8 +90,7 @@ class UIController {
   public header(): void {
     if (!this.headerPresent || this.overscrollDeadZone()) return;
 
-    const el: HTMLElement | null = document.querySelector<HTMLElement>("header");
-    if (!el) {
+    if (!this.headerElement) {
       console.error("Header missing — suspending header UI controller");
       this.headerPresent = false;
       return;
@@ -103,17 +103,17 @@ class UIController {
     if (!this.headerActive && scrollingUp) {
       // Show header when scrolling up
       this.headerState = HeaderState.SHOW;
-      el.classList.remove(this.headerHideClass);
+      this.headerElement.classList.remove(this.headerHideClass);
       this.headerActive = true;
     } else if (this.headerActive && scrollingDownPastThreshold) {
       // Hide header when scrolling down past threshold
       this.headerState = HeaderState.HIDE;
-      el.classList.add(this.headerHideClass);
+      this.headerElement.classList.add(this.headerHideClass);
       this.headerActive = false;
     } else if (!this.headerActive && y > 0 && this.headerState !== HeaderState.ONLOAD) {
       // Hide header on initial scroll after page load
       this.headerState = HeaderState.ONLOAD;
-      el.classList.add(this.headerHideClass);
+      this.headerElement.classList.add(this.headerHideClass);
     }
 
     this.headerPast = y;
