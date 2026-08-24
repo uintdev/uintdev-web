@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
 
   try {
     uiController.header();
-    window.onscroll = (): void => uiController.header();
+    window.addEventListener("scroll", () => uiController.header(), { passive: true });
   } catch (error) {
     console.error("Failed to initialize UI components:", error);
   }
