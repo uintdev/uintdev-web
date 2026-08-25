@@ -142,7 +142,7 @@ header {
             }
         }
 
-        @media (prefers-reduced-motion) {
+        @media (prefers-reduced-motion: reduce) {
             .theme-invert {
                 transition: background-color 0s;
             }
@@ -170,7 +170,7 @@ header {
     }
 }
 
-@media (prefers-reduced-motion) {
+@media (prefers-reduced-motion: reduce) {
     header {
         transition: background-color 0s;
     }

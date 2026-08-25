@@ -101,7 +101,7 @@
         }
     }
 
-    @media (prefers-reduced-motion) {
+    @media (prefers-reduced-motion: reduce) {
         .card {
             transition: background-color 0s;
         }

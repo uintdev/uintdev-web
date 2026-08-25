@@ -2,7 +2,7 @@
     transition: background-color 0.3s;
 }
 
-@media (prefers-reduced-motion) {
+@media (prefers-reduced-motion: reduce) {
     * {
         transition: background-color 0.8s;
     }
