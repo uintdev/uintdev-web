@@ -341,12 +341,15 @@ document.addEventListener("DOMContentLoaded", (): void => {
   else console.error("Unable to show theme toggle - element not found");
 
   document.addEventListener("click", (event: PointerEvent): void => {
-    const target = event.target as HTMLElement;
+    const target: HTMLElement = event.target as HTMLElement;
+    const targetParent: HTMLElement | null = target.parentElement;
+
+    if (targetParent == null) return;
 
     // Handle theme toggle
     if (target.matches(eventController.selector)) eventController.init(event);
     // Handle header scroll
-    if (target.matches("header .title")) uiController.scrollHandler(event);
+    if (targetParent.matches("header .title") || target.matches("header .title")) uiController.scrollHandler(event);
     // Handle dialog close
     if (target.matches("dialog .close")) dialogController.close(event as MouseEvent);
   });
