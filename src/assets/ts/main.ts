@@ -6,7 +6,7 @@ enum ThemeType {
 }
 
 class Theme {
-  public readonly themeMeta: string = 'meta[name="theme-color"]';
+  public readonly themeMetaSelector: string = 'meta[name="theme-color"]';
   private readonly themeOverride: string = "color-scheme";
   private readonly themeDefault: ThemeType = ThemeType.DARK;
   private readonly toggleRate: number = 250;
@@ -38,7 +38,7 @@ class Theme {
    */
   set(): void {
     const next: ThemeType = this.get() === ThemeType.DARK ? ThemeType.LIGHT : ThemeType.DARK;
-    const metaTheme: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>(this.themeMeta);
+    const metaTheme: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>(this.themeMetaSelector);
 
     if (window.matchMedia?.(this.schemeType(next)).matches) {
       document.documentElement.removeAttribute(this.themeOverride);
@@ -77,7 +77,7 @@ class UIController {
   private headerActive: boolean = false;
   private headerState: HeaderState = HeaderState.ONLOAD;
   private headerPresent: boolean = true;
-  private headerDeadZoneTop: number = 100;
+  private readonly headerDeadZoneTop: number = 100;
   private readonly headerHideClass: string = "hide";
   private readonly isMobileSafari: boolean =
     !CSS.supports("user-select: none") && !window.matchMedia("(hover: hover)").matches;
@@ -177,10 +177,10 @@ class EventController {
     event.preventDefault();
 
     const buttonElement = event.target as HTMLElement;
-    const firstClass: string | null = buttonElement.classList[0];
-    if (!firstClass) return;
+    const className: string | null = buttonElement.classList[0];
+    if (!className) return;
 
-    switch (firstClass) {
+    switch (className) {
       case "card":
       case "button-link": {
         const href: string | null = buttonElement.getAttribute("href");
@@ -188,8 +188,7 @@ class EventController {
         break;
       }
       case "theme-invert-icon": {
-        if (!theme || theme.rateLimit()) return;
-        theme.set();
+        if (!theme.rateLimit()) theme.set();
         break;
       }
     }
@@ -231,7 +230,7 @@ class DialogController {
 
   /**
    * Close dialog box
-   * @method open
+   * @method close
    * @param event {MouseEvent} Mouse event
    * @returns {void}
    */
@@ -277,7 +276,7 @@ class Egg {
    * @returns {void}
    */
   private playTone(): void {
-    const ctx = new AudioContext();
+    const ctx: AudioContext = new AudioContext();
     const oscillator: OscillatorNode = ctx.createOscillator();
     const gain: GainNode = ctx.createGain();
     const end: number = ctx.currentTime + this.initAudioDuration / 1000;
@@ -355,7 +354,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
   });
 
   try {
-    document.querySelectorAll<HTMLElement>(theme.themeMeta).forEach((element: Element) => {
+    document.querySelectorAll<HTMLElement>(theme.themeMetaSelector).forEach((element: Element) => {
       themeOriginalColors.push(element.getAttribute("content") ?? "");
     });
   } catch (error) {
