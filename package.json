@@ -17,11 +17,11 @@
     "url": "https://github.com/uintdev/uintdev-web.git"
   },
   "devDependencies": {
-    "@rspack/cli": "^2.1.10",
-    "@rspack/core": "^2.1.10",
+    "@rspack/cli": "^2.2.0",
+    "@rspack/core": "^2.2.0",
     "@rspack/dev-server": "^2.2.1",
     "@types/bun": "^1.4.0",
-    "axios": "^1.19.0",
+    "axios": "^1.20.0",
     "cheerio": "^1.2.0",
     "css-loader": "^7.1.4",
     "html-minifier-terser": "^7.2.0",
