@@ -17,18 +17,18 @@
     "url": "https://github.com/uintdev/uintdev-web.git"
   },
   "devDependencies": {
-    "@rspack/cli": "^2.2.0",
-    "@rspack/core": "^2.2.0",
+    "@rspack/cli": "^2.2.1",
+    "@rspack/core": "^2.2.1",
     "@rspack/dev-server": "^2.2.1",
     "@types/bun": "^1.4.0",
     "axios": "^1.20.0",
     "cheerio": "^1.2.0",
-    "css-loader": "^7.1.4",
+    "css-loader": "^7.1.5",
     "html-minifier-terser": "^7.2.0",
     "sass": "^1.103.1",
     "sass-loader": "^17.0.0",
     "typescript": "^7.0.2",
-    "wrangler": "^4.126.0",
+    "wrangler": "^4.127.1",
     "@types/html-minifier-terser": "^7.0.2"
   }
 }
