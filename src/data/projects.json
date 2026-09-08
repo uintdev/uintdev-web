@@ -11,6 +11,12 @@
       "tags": ["App", "Flutter", "Dart"]
     },
     {
+      "name": "SSD1306 Display RPi",
+      "description": "SSD1306 OLED driver in Rust with Raspberry Pi system info display",
+      "url": "https://github.com/uintdev/ssd1306-display-rpi",
+      "tags": ["Service", "Rust"]
+    },
+    {
       "name": "Discord Cache Dump",
       "description": "Archival and identification of Chromium cache files from Discord desktop clients",
       "url": "https://github.com/uintdev/Discord-Cache-Dump",
