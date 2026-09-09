@@ -1,5 +1,6 @@
 name = "uintdev-main"
-compatibility_date = "2026-08-30"
+compatibility_date = "2026-09-09"
+compatibility_flags = [ "new_module_registry" ]
 
 routes = [
     { pattern = "uint.dev", custom_domain = true },
