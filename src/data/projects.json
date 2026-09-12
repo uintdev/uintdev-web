@@ -8,7 +8,7 @@
       "name": "QRServ",
       "description": "An intuitive application for Android that enables downloading of a file selection over HTTP with the convenience of scanning a QR code",
       "url": "https://github.com/uintdev/qrserv",
-      "tags": ["App", "Flutter", "Dart"]
+      "tags": ["App", "Kotlin", "Jetpack Compose"]
     },
     {
       "name": "SSD1306 Display RPi",
