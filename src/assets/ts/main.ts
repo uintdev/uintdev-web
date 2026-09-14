@@ -75,17 +75,11 @@ class Theme {
 
 const theme: Theme = new Theme();
 
-enum HeaderState {
-  SHOW,
-  HIDE,
-  ONLOAD,
-}
-
 class UIController {
   private headerElement: HTMLElement | null = document.querySelector<HTMLElement>("header");
   private headerPast: number = window.scrollY;
   private headerActive: boolean = false;
-  private headerState: HeaderState = HeaderState.ONLOAD;
+  private headerHiddenOnLoad: boolean = false;
   private headerPresent: boolean = true;
   private readonly headerDeadZoneTop: number = 100;
   private readonly headerHideClass: string = "hide";
@@ -107,22 +101,20 @@ class UIController {
     }
 
     const y: number = window.scrollY;
-    const scrollingUp: boolean = y <= this.headerPast;
+    const scrollingUp: boolean = y < this.headerPast;
     const scrollingDownPastThreshold: boolean = y > this.headerDeadZoneTop && y > this.headerPast;
 
     if (!this.headerActive && scrollingUp) {
       // Show header when scrolling up
-      this.headerState = HeaderState.SHOW;
       this.headerElement.classList.remove(this.headerHideClass);
       this.headerActive = true;
     } else if (this.headerActive && scrollingDownPastThreshold) {
       // Hide header when scrolling down past threshold
-      this.headerState = HeaderState.HIDE;
       this.headerElement.classList.add(this.headerHideClass);
       this.headerActive = false;
-    } else if (!this.headerActive && y > 0 && this.headerState !== HeaderState.ONLOAD) {
+    } else if (!this.headerHiddenOnLoad && !this.headerActive && y > 0) {
       // Hide header on initial scroll after page load
-      this.headerState = HeaderState.ONLOAD;
+      this.headerHiddenOnLoad = true;
       this.headerElement.classList.add(this.headerHideClass);
     }
 
