@@ -39,18 +39,7 @@ header {
         color: rgba(var(--color-secondary), 1);
         transition: background-color var(--interactive-transition-speed);
         cursor: pointer;
-
-        &:focus {
-            background-color: var(--color-secondary-inverted-focus);
-            @media (hover: none) {
-                outline: none;
-            }
-        }
-
-        &:focus:not(:focus-visible) {
-            outline: none;
-            background-color: var(--color-secondary-inverted-focus);
-        }
+        @include mixins.invert-on-focus;
 
         .logo {
             display: block;
@@ -74,10 +63,6 @@ header {
         display: inline-flex;
         gap: 20px;
 
-        .hide {
-            display: none !important;
-        }
-
         .button-link {
             @include mixins.flex-center;
             @include mixins.unselectable;
@@ -88,18 +73,7 @@ header {
             background-color: rgba(var(--color-primary), 1);
             transition: background-color var(--interactive-transition-speed);
             cursor: pointer;
-
-            &:focus {
-                background-color: var(--color-secondary-inverted-focus);
-                @media (hover: none) {
-                    outline: none;
-                }
-            }
-
-            &:focus:not(:focus-visible) {
-                outline: none;
-                background-color: var(--color-secondary-inverted-focus);
-            }
+            @include mixins.invert-on-focus;
 
             .blog-icon {
                 @include mixins.image-loader("header/blog.svg");
@@ -120,18 +94,7 @@ header {
             z-index: 10;
             transition: background-color var(--interactive-transition-speed);
             cursor: pointer;
-
-            &:focus {
-                background-color: var(--color-secondary-inverted-focus);
-                @media (hover: none) {
-                    outline: none;
-                }
-            }
-
-            &:focus:not(:focus-visible) {
-                outline: none;
-                background-color: var(--color-secondary-inverted-focus);
-            }
+            @include mixins.invert-on-focus;
 
             .theme-invert-icon {
                 @include mixins.image-loader("header/invert.svg");

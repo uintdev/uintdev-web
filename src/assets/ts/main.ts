@@ -1,5 +1,3 @@
-let themeOriginalColors: string[] = [];
-
 enum ThemeType {
   LIGHT = "light",
   DARK = "dark",
@@ -11,9 +9,21 @@ class Theme {
   private readonly themeDefault: ThemeType = ThemeType.DARK;
   private readonly toggleRate: number = 250;
   private toggleLast: number = 0;
+  private originalColors: string[] = [];
 
   private schemeType(scheme: ThemeType): string {
     return `(prefers-color-scheme: ${scheme})`;
+  }
+
+  /**
+   * Capture the original theme-color meta content values
+   * @method init
+   * @returns {void}
+   */
+  init(): void {
+    document.querySelectorAll<HTMLElement>(this.themeMetaSelector).forEach((element: Element) => {
+      this.originalColors.push(element.getAttribute("content") ?? "");
+    });
   }
 
   /**
@@ -42,13 +52,13 @@ class Theme {
 
     if (window.matchMedia?.(this.schemeType(next)).matches) {
       document.documentElement.removeAttribute(this.themeOverride);
-      themeOriginalColors.forEach((color, i) => metaTheme[i]?.setAttribute("content", color));
+      this.originalColors.forEach((color, i) => metaTheme[i]?.setAttribute("content", color));
       return;
     }
 
     document.documentElement.setAttribute(this.themeOverride, next);
     const colorIndex: number = next === ThemeType.DARK ? 0 : 1;
-    metaTheme.forEach((el): void => el.setAttribute("content", themeOriginalColors[colorIndex]));
+    metaTheme.forEach((el): void => el.setAttribute("content", this.originalColors[colorIndex]));
   }
 
   /**
@@ -177,20 +187,15 @@ class EventController {
     event.preventDefault();
 
     const buttonElement = event.target as HTMLElement;
-    const className: string | null = buttonElement.classList[0];
-    if (!className) return;
 
-    switch (className) {
-      case "card":
-      case "button-link": {
-        const href: string | null = buttonElement.getAttribute("href");
-        if (href) location.href = href;
-        break;
-      }
-      case "theme-invert-icon": {
-        if (!theme.rateLimit()) theme.set();
-        break;
-      }
+    if (buttonElement.matches(".card, .button-link")) {
+      const href: string | null = buttonElement.getAttribute("href");
+      if (href) location.href = href;
+      return;
+    }
+
+    if (buttonElement.matches(".theme-invert-icon")) {
+      if (!theme.rateLimit()) theme.set();
     }
   }
 }
@@ -221,9 +226,9 @@ class DialogController {
       return;
     }
 
-    const sanitized: string = body.replaceAll('"', "&quot;").replaceAll("\n", "<br>");
+    const escapedBody: string = body.replaceAll('"', "&quot;").replaceAll("\n", "<br>");
     dialogElement.querySelector<HTMLElement>(".header")!.innerHTML = title;
-    dialogElement.querySelector<HTMLElement>(".body")!.innerHTML = sanitized;
+    dialogElement.querySelector<HTMLElement>(".body")!.innerHTML = escapedBody;
     dialogElement.showModal();
     dialogElement.querySelector<HTMLElement>(".close")?.blur();
   }
@@ -354,9 +359,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
   });
 
   try {
-    document.querySelectorAll<HTMLElement>(theme.themeMetaSelector).forEach((element: Element) => {
-      themeOriginalColors.push(element.getAttribute("content") ?? "");
-    });
+    theme.init();
   } catch (error) {
     console.error("Failed to initialize theme metadata:", error);
   }
