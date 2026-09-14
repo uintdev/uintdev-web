@@ -37,7 +37,7 @@ const blogEntryObject: BlogEntry = {
 
 console.log("Fetching blog post data...");
 
-const { data } = await axios.get(BLOG_URL);
+const { data } = await axios.get(BLOG_URL, { timeout: 10000 });
 const $: cheerio.CheerioAPI = cheerio.load(data);
 const cards = $(SELECTOR);
 
@@ -46,8 +46,7 @@ if (!cards.length) {
   process.exit(1);
 }
 
-cards.each((i, el) => {
-  if (i >= POST_LIMIT) return;
+cards.slice(0, POST_LIMIT).each((_, el) => {
   const card = $(el);
   blogEntryObject.posts.push({
     link: card.attr("href") ?? "#",
