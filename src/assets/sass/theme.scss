@@ -1,87 +1,28 @@
-* {
-    transition: background-color 0.3s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    * {
-        transition: background-color 0.8s;
-    }
-}
-
-$theme-properties: color-primary, color-secondary, color-secondary-focus,
-    color-secondary-hover, color-third, color-thumb, color-thumb-hover,
-    color-accent, brightness-card-thumb-focus, brightness-card-thumb-hover,
-    color-secondary-inverted, color-secondary-inverted-focus,
-    color-secondary-inverted-hover, color-secondary-inverted-icon;
-
-@mixin theme($mode) {
-    color-scheme: $mode;
-
-    @each $prop in $theme-properties {
-        --#{$prop}: var(--#{$prop}-#{$mode});
-    }
-}
-
-@mixin theme_dark {
-    @include theme(dark);
-}
-
-@mixin theme_light {
-    @include theme(light);
-}
-
 :root {
-    // Theme - Noir Fill
-    --color-primary-dark: 205, 215, 240;
-    --color-secondary-dark: 30, 30, 45;
-    --color-secondary-focus-dark: 35, 35, 50;
-    --color-secondary-hover-dark: 40, 40, 55;
-    --color-third-dark: 220, 220, 220;
-    --color-thumb-dark: rgba(80, 80, 80, 0.6);
-    --color-thumb-hover-dark: rgba(80, 80, 80, 0.8);
-    --color-accent-dark: 199, 176, 222;
-    --brightness-card-thumb-focus-dark: 1.025;
-    --brightness-card-thumb-hover-dark: 1.05;
-    --color-secondary-inverted-dark: var(--color-secondary-light);
-    --color-secondary-inverted-focus-dark: color-mix(
+    color-scheme: dark;
+
+    --color-primary: 205, 215, 240;
+    --color-secondary: 30, 30, 45;
+    --color-secondary-focus: 35, 35, 50;
+    --color-secondary-hover: 40, 40, 55;
+    --color-third: 220, 220, 220;
+    --color-thumb: rgba(80, 80, 80, 0.6);
+    --color-thumb-hover: rgba(80, 80, 80, 0.8);
+    --color-accent: 199, 176, 222;
+    --brightness-card-thumb-focus: 1.025;
+    --brightness-card-thumb-hover: 1.05;
+    --color-secondary-inverted: var(--color-primary);
+    --color-secondary-inverted-focus: color-mix(
         in srgb,
         rgba(var(--color-primary), 1) 95%,
         rgba(var(--color-secondary), 1)
     );
-    --color-secondary-inverted-hover-dark: color-mix(
+    --color-secondary-inverted-hover: color-mix(
         in srgb,
         rgba(var(--color-primary), 1) 93%,
         rgba(var(--color-secondary), 1)
     );
-    --color-secondary-inverted-icon-dark: var(--color-primary-light);
-
-    // Theme - Paper Fill
-    --color-primary-light: 54, 56, 58;
-    --color-secondary-light: 205, 215, 240;
-    --color-secondary-focus-light: 200, 210, 235;
-    --color-secondary-hover-light: 195, 205, 230;
-    --color-third-light: 74, 76, 78;
-    --color-thumb-light: rgba(200, 200, 200, 1);
-    --color-thumb-hover-light: var(--color-secondary-hover-light);
-    --color-accent-light: 105, 127, 255;
-    --brightness-card-thumb-focus-light: 0.985;
-    --brightness-card-thumb-hover-light: 0.95;
-    --color-secondary-inverted-light: var(--color-secondary-dark);
-    --color-secondary-inverted-focus-light: color-mix(
-        in srgb,
-        rgba(var(--color-primary), 1) 95%,
-        rgba(var(--color-secondary), 1)
-    );
-    --color-secondary-inverted-hover-light: color-mix(
-        in srgb,
-        rgba(var(--color-primary), 1) 93%,
-        rgba(var(--color-secondary), 1)
-    );
-    --color-secondary-inverted-icon-light: var(--color-primary-dark);
-
-    // End of theme
-
-    @include theme_dark;
+    --color-secondary-inverted-icon: 54, 56, 58;
 
     --radius-card: 10px;
     --radius-tag: 8px;
@@ -93,18 +34,4 @@ $theme-properties: color-primary, color-secondary, color-secondary-focus,
     --interactive-transition-speed: 0.2s;
 
     --font-stack: "Nunito", sans-serif;
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        @include theme_light;
-    }
-}
-
-[color-scheme="light"] {
-    @include theme_light;
-}
-
-[color-scheme="dark"] {
-    @include theme_dark;
 }

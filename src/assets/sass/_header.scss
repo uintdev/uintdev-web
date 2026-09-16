@@ -84,32 +84,6 @@ header {
             }
         }
 
-        .theme-invert {
-            background-color: rgba(var(--color-primary), 1);
-            @include mixins.flex-center;
-            width: var(--header-icon-size);
-            height: var(--header-icon-size);
-            border-radius: var(--header-icon-size);
-            @include mixins.unselectable;
-            z-index: 10;
-            transition: background-color var(--interactive-transition-speed);
-            cursor: pointer;
-            @include mixins.invert-on-focus;
-
-            .theme-invert-icon {
-                @include mixins.image-loader("header/invert.svg");
-                background-color: rgba(var(--color-secondary-inverted-icon), 1);
-                height: var(--header-icon-size);
-                width: 100%;
-                border-radius: inherit;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .theme-invert {
-                transition: background-color 0s;
-            }
-        }
     }
 
     @media (hover: hover) {
@@ -120,11 +94,6 @@ header {
         }
         .options {
             .button-link {
-                &:hover {
-                    background-color: var(--color-secondary-inverted-hover);
-                }
-            }
-            .theme-invert {
                 &:hover {
                     background-color: var(--color-secondary-inverted-hover);
                 }

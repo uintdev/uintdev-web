@@ -12,8 +12,7 @@
         <meta property="og:url" content="<%= meta.url %>">
         <meta name="twitter:card" content="summary">
         <meta property="twitter:title" content="<%= meta.title %>">
-        <meta name="theme-color" content="<%= meta.theme.dark %>" media="(prefers-color-scheme: dark)">
-        <meta name="theme-color" content="<%= meta.theme.light %>" media="(prefers-color-scheme: light)">
+        <meta name="theme-color" content="<%= meta.theme %>">
         <title><%= meta.title %></title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="<%= meta.favicon %>">
@@ -33,9 +32,6 @@
             <span class="options">
                 <a href="https://blog.uint.dev/" class="button-link" title="Blog">
                     <span class="blog-icon"></span>
-                </a>
-                <a href="#" class="theme-invert hide" title="Invert theme">
-                    <span class="theme-invert-icon"></span>
                 </a>
             </span>
         </header>

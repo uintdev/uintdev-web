@@ -1,80 +1,3 @@
-enum ThemeType {
-  LIGHT = "light",
-  DARK = "dark",
-}
-
-class Theme {
-  public readonly themeMetaSelector: string = 'meta[name="theme-color"]';
-  private readonly themeOverride: string = "color-scheme";
-  private readonly themeDefault: ThemeType = ThemeType.DARK;
-  private readonly toggleRate: number = 250;
-  private toggleLast: number = 0;
-  private originalColors: string[] = [];
-
-  private schemeType(scheme: ThemeType): string {
-    return `(prefers-color-scheme: ${scheme})`;
-  }
-
-  /**
-   * Capture the original theme-color meta content values
-   * @method init
-   * @returns {void}
-   */
-  init(): void {
-    document.querySelectorAll<HTMLElement>(this.themeMetaSelector).forEach((element: Element) => {
-      this.originalColors.push(element.getAttribute("content") ?? "");
-    });
-  }
-
-  /**
-   * Get current theme
-   * @method get
-   * @returns {ThemeType} Current theme value
-   */
-  private get(): ThemeType {
-    const override: string | null = document.documentElement.getAttribute(this.themeOverride);
-    if (override) return override as ThemeType;
-
-    for (const scheme of [ThemeType.DARK, ThemeType.LIGHT]) {
-      if (window.matchMedia?.(this.schemeType(scheme)).matches) return scheme;
-    }
-
-    return this.themeDefault;
-  }
-
-  /**
-   * Toggle between light and dark themes
-   * @method set
-   */
-  set(): void {
-    const next: ThemeType = this.get() === ThemeType.DARK ? ThemeType.LIGHT : ThemeType.DARK;
-    const metaTheme: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>(this.themeMetaSelector);
-
-    if (window.matchMedia?.(this.schemeType(next)).matches) {
-      document.documentElement.removeAttribute(this.themeOverride);
-      this.originalColors.forEach((color, i) => metaTheme[i]?.setAttribute("content", color));
-      return;
-    }
-
-    document.documentElement.setAttribute(this.themeOverride, next);
-    const colorIndex: number = next === ThemeType.DARK ? 0 : 1;
-    metaTheme.forEach((el): void => el.setAttribute("content", this.originalColors[colorIndex]));
-  }
-
-  /**
-   * Throttle theme toggle
-   * @returns {boolean}
-   */
-  public rateLimit(): boolean {
-    const now: number = Date.now();
-    if (now - this.toggleLast <= this.toggleRate) return true;
-    this.toggleLast = now;
-    return false;
-  }
-}
-
-const theme: Theme = new Theme();
-
 class UIController {
   private headerElement: HTMLElement | null = document.querySelector<HTMLElement>("header");
   private headerPast: number = window.scrollY;
@@ -167,7 +90,7 @@ class UIController {
 const uiController: UIController = new UIController();
 
 class EventController {
-  public readonly selector: string = ".card, .button-link, .theme-invert-icon";
+  public readonly selector: string = ".card, .button-link";
 
   /**
    * Handle click events on interactive elements
@@ -184,10 +107,6 @@ class EventController {
       const href: string | null = buttonElement.getAttribute("href");
       if (href) location.href = href;
       return;
-    }
-
-    if (buttonElement.matches(".theme-invert-icon")) {
-      if (!theme.rateLimit()) theme.set();
     }
   }
 }
@@ -332,26 +251,15 @@ class Egg {
 const egg: Egg = new Egg();
 
 document.addEventListener("DOMContentLoaded", (): void => {
-  const revealToggle: HTMLElement | null = document.querySelector<HTMLElement>(".theme-invert");
-  if (revealToggle) revealToggle.classList.remove("hide");
-  else console.error("Unable to show theme toggle - element not found");
-
   document.addEventListener("click", (event: PointerEvent): void => {
     const target: HTMLElement = event.target as HTMLElement;
 
-    // Handle theme toggle
     if (target.matches(eventController.selector)) eventController.init(event);
     // Handle header scroll
     if (target.closest("header .title")) uiController.scrollHandler(event);
     // Handle dialog close
     if (target.matches("dialog .close")) dialogController.close(event as MouseEvent);
   });
-
-  try {
-    theme.init();
-  } catch (error) {
-    console.error("Failed to initialize theme metadata:", error);
-  }
 
   try {
     uiController.header();
