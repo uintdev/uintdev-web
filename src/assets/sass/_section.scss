@@ -1,9 +1,23 @@
 @use "sass:meta";
+@use "breakpoints";
 @use "mixins";
 
 .header-margin {
     margin-top: 120px;
     border-top: unset;
+}
+
+#about {
+    max-width: var(--max-width-content);
+    margin-inline: auto;
+}
+
+.dual-section {
+    @media (min-width: breakpoints.$wide) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+    }
 }
 
 section {

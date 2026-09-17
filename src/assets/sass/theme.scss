@@ -1,3 +1,5 @@
+@use "breakpoints";
+
 :root {
     color-scheme: dark;
 
@@ -12,10 +14,17 @@
     --radius-tag: 8px;
 
     --max-width-ui: 900px;
+    --max-width-content: 900px;
 
     --header-icon-size: 46px;
 
     --interactive-transition-speed: 0.2s;
 
     --font-stack: "Nunito", sans-serif;
+}
+
+@media (min-width: breakpoints.$wide) {
+    :root {
+        --max-width-ui: 1300px;
+    }
 }

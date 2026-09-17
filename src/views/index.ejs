@@ -48,44 +48,46 @@
                     <%= aboutData %>
                 </div>
             </section>
-            <section id="projects">
-                <div class="content-title"><%= project.metadata.title %></div>
-                <div class="content-desc"><%= project.metadata.description %></div>
-                <div class="content-block">
-                    <div class="card-container">
-                        <% for item in project.list { %>
-                            <a href="<%= item.url %>" class="card">
-                                <div class="project-info">
-                                    <div class="name"><%= item.name %></div>
-                                    <div class="tag-container">
-                                        <% for tag in item.tags { %>
-                                            <span class="tag"><%= tag %></span>
-                                        <% } %>
+            <div class="dual-section">
+                <section id="projects">
+                    <div class="content-title"><%= project.metadata.title %></div>
+                    <div class="content-desc"><%= project.metadata.description %></div>
+                    <div class="content-block">
+                        <div class="card-container">
+                            <% for item in project.list { %>
+                                <a href="<%= item.url %>" class="card">
+                                    <div class="project-info">
+                                        <div class="name"><%= item.name %></div>
+                                        <div class="tag-container">
+                                            <% for tag in item.tags { %>
+                                                <span class="tag"><%= tag %></span>
+                                            <% } %>
+                                        </div>
+                                        <div class="description"><%= item.description %></div>
                                     </div>
-                                    <div class="description"><%= item.description %></div>
-                                </div>
-                            </a>
-                        <% } %>
+                                </a>
+                            <% } %>
+                        </div>
                     </div>
-                </div>
-            </section>
-            <section id="blog">
-                <div class="content-title"><%= blog.metadata.title %></div>
-                <div class="content-desc"><%= blog.metadata.description %></div>
-                <div class="content-block">
-                    <div class="card-container">
-                        <% for post in blog.posts { %>
-                            <a class="card" href="<%= blog.metadata.base + post.link %>">
-                                <div class="blog-info">
-                                    <div class="title"><%= post.title %></div>
-                                    <div class="description"><%= post.description %></div>
-                                    <div class="metadata"><%= post.metadata %></div>
-                                </div>
-                            </a>
-                        <% } %>
+                </section>
+                <section id="blog">
+                    <div class="content-title"><%= blog.metadata.title %></div>
+                    <div class="content-desc"><%= blog.metadata.description %></div>
+                    <div class="content-block">
+                        <div class="card-container">
+                            <% for post in blog.posts { %>
+                                <a class="card" href="<%= blog.metadata.base + post.link %>">
+                                    <div class="blog-info">
+                                        <div class="title"><%= post.title %></div>
+                                        <div class="description"><%= post.description %></div>
+                                        <div class="metadata"><%= post.metadata %></div>
+                                    </div>
+                                </a>
+                            <% } %>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
             <dialog>
                 <div class="header"></div>
                 <div class="body"></div>
