@@ -13,17 +13,3 @@
     align-items: center;
     justify-content: center;
 }
-
-@mixin invert-on-focus {
-    &:focus {
-        background-color: var(--color-secondary-inverted-focus);
-        @media (hover: none) {
-            outline: none;
-        }
-    }
-
-    &:focus:not(:focus-visible) {
-        outline: none;
-        background-color: var(--color-secondary-inverted-focus);
-    }
-}
