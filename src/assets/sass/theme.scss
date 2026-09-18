@@ -13,8 +13,8 @@
     --radius-card: 10px;
     --radius-tag: 8px;
 
-    --max-width-ui: 900px;
-    --max-width-content: 900px;
+    --max-width-ui: 700px;
+    --max-width-content: 850px;
 
     --header-icon-size: 46px;
 
@@ -25,6 +25,6 @@
 
 @media (min-width: breakpoints.$wide) {
     :root {
-        --max-width-ui: 1300px;
+        --max-width-ui: 1000px;
     }
 }
