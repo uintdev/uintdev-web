@@ -30,9 +30,16 @@ footer {
 
         .right {
             display: flex;
+            align-items: baseline;
             text-transform: lowercase;
             flex-wrap: wrap;
-            gap: 18px;
+            gap: 8px;
+
+            a + a::before {
+                content: "\2022";
+                color: rgba(var(--color-primary), 0.3);
+                margin-right: 8px;
+            }
         }
     }
 }
