@@ -1,3 +1,5 @@
+@use "breakpoints";
+
 @mixin image-loader($file) {
     mask-image: url(../img/#{$file});
     mask-repeat: no-repeat;
@@ -12,4 +14,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@mixin content-width {
+    width: 100%;
+    max-width: var(--max-width-ui);
+    margin-inline: auto;
+
+    @media (min-width: breakpoints.$wide) {
+        width: 90%;
+    }
 }

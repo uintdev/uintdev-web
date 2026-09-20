@@ -101,13 +101,8 @@ class EventController {
   public init(event: Event): void {
     event.preventDefault();
 
-    const buttonElement = event.target as HTMLElement;
-
-    if (buttonElement.matches(".card, .button-link")) {
-      const href: string | null = buttonElement.getAttribute("href");
-      if (href) location.href = href;
-      return;
-    }
+    const href: string | null = (event.target as HTMLElement).getAttribute("href");
+    if (href) location.href = href;
   }
 }
 

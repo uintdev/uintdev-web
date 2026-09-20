@@ -2,4 +2,5 @@
 main {
     @include meta.load-css("section");
     @include meta.load-css("dialog");
+    @include meta.load-css("error");
 }

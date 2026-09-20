@@ -2,110 +2,74 @@
 
 .card-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    height: 100%;
-    max-width: 95%;
-    justify-content: center;
-    align-items: baseline;
-    margin-inline: auto;
+    flex-direction: column;
+    gap: 20px;
 
     .card {
-        width: 100%;
-        cursor: pointer;
         box-sizing: border-box;
-        border: 1px solid rgba(var(--color-primary), 0.1);
+        cursor: pointer;
         border-radius: var(--radius-card);
-        background-color: rgba(var(--color-secondary), 0.7);
-        padding: 25px;
+        background-color: rgba(var(--color-elevated), 0.07);
+        padding: 20px;
         color: rgba(var(--color-primary), 1);
         transition: background-color var(--interactive-transition-speed);
-        backdrop-filter: blur(20px) saturate(130%);
-        box-shadow:
-            inset 0 1px 0 rgba(var(--color-primary), 0.12),
-            inset 0 0 15px rgba(var(--color-primary), 0.05),
-            0 4px 15px rgba(0, 0, 0, 0.2);
-
-        &:focus {
-            background-color: rgba(var(--color-secondary-focus), 0.2);
-        }
 
         @media (hover: hover) {
             &:hover {
-                background-color: rgba(var(--color-secondary-hover), 0.4);
+                background-color: rgba(var(--color-elevated), 0.12);
+            }
+        }
+
+        .project-info,
+        .blog-info {
+            @include mixins.unselectable;
+
+            .name,
+            .title {
+                font-size: 1.05rem;
+                font-weight: 700;
+                line-height: 1.35;
+            }
+
+            .description {
+                font-size: 0.9rem;
+                line-height: 1.5;
+                margin-top: 10px;
+                color: rgba(var(--color-primary), var(--opacity-muted));
             }
         }
 
         .project-info {
-            text-align: left;
-            @include mixins.unselectable;
-
-            .name {
-                font-size: 1.1rem;
-                font-weight: 600;
-            }
-
             .tag-container {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 14px;
-                height: 100%;
-                justify-content: left;
-                align-items: stretch;
-                font-size: 0.74rem;
+                gap: 10px;
+                font-size: 0.72rem;
                 margin-top: 12px;
 
                 .tag {
                     border-radius: var(--radius-tag);
-                    background-color: rgba(86, 86, 176, 0.2);
-                    border: 1px solid rgba(var(--color-primary), 0.1);
-                    color: rgba(148, 148, 255, 1);
-                    padding: 6px 12px;
-                    backdrop-filter: blur(20px) saturate(130%);
-                    box-shadow:
-                        inset 0 1px 0 rgba(var(--color-primary), 0.12),
-                        inset 0 0 4px rgba(var(--color-primary), 0.05),
-                        rgba(0, 0, 0, 0.2) 0 2px 6px;
-                    font-weight: 600;
+                    background-color: rgba(var(--color-accent), 0.14);
+                    color: rgba(var(--color-accent), 1);
+                    padding: 5px 10px;
+                    font-weight: 700;
                 }
-            }
-            .description {
-                font-size: 0.89rem;
-                font-weight: 300;
-                margin-top: 12px;
-                color: rgba(var(--color-primary), 0.8);
             }
         }
 
         .blog-info {
-            text-align: left;
-            @include mixins.unselectable;
-
-            .title {
-                font-size: 1.1rem;
-                margin-bottom: 10px;
-                font-weight: 600;
-                line-height: 1.2em;
-            }
-            .description {
-                font-size: 0.89rem;
-                font-weight: 300;
-                margin-bottom: 10px;
-                line-height: 1.2em;
-                color: rgba(var(--color-primary), 0.8);
-            }
             .metadata {
-                font-size: 0.81rem;
-                color: rgba(var(--color-primary), 0.8);
+                font-size: 0.78rem;
+                margin-top: 12px;
+                color: rgba(var(--color-primary), 0.5);
                 display: flex;
-                gap: 10px;
-            }
-        }
-    }
+                flex-wrap: wrap;
+                gap: 8px;
 
-    @media (prefers-reduced-motion: reduce) {
-        .card {
-            transition: background-color 0s;
+                .separator {
+                    color: rgba(var(--color-primary), 0.25);
+                }
+            }
         }
     }
 }
