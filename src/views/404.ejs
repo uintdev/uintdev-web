@@ -2,17 +2,21 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="theme-color" content="#18182a">
-        <title>uint.dev</title>
+        <meta name="theme-color" content="<%= meta.theme %>">
+        <title><%= meta.title %></title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <link rel="icon" href="/assets/favicon.png">
-        <link rel="apple-touch-icon" href="/assets/favicon.png">
-        <link href="/main.css" rel="stylesheet">
+        <link rel="icon" href="<%= meta.favicon %>">
+        <link rel="apple-touch-icon" href="<%= meta.favicon %>">
+        <% for tag in htmlRspackPlugin.tags.headTags { %>
+          <% if tag.tagName == "link" { %>
+            <%= toHtml(tag) %>
+          <% } %>
+        <% } %>
     </head>
     <body>
         <header>
             <div class="bar">
-                <a href="/" class="title" title="Go to main page">uint.dev</a>
+                <a href="/" class="title" title="Go to main page"><%= meta.name %></a>
             </div>
         </header>
         <main>

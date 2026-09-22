@@ -92,6 +92,12 @@ const configBuild: Configuration = {
       inject: false,
       templateParameters: getTemplateData,
     }),
+    new rspack.HtmlRspackPlugin({
+      template: "./src/views/404.ejs",
+      filename: "./404.html",
+      inject: false,
+      templateParameters: getTemplateData,
+    }),
     new rspack.CssExtractRspackPlugin({ filename: "[name].css" }),
     new rspack.CopyRspackPlugin({
       patterns: [
