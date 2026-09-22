@@ -26,7 +26,7 @@
             <div class="bar">
                 <a href="#" class="title" title="Title - press to scroll to top"><div class="logo"></div><span><%= meta.name %></span></a>
                 <span class="options">
-                    <a href="https://blog.uint.dev/" class="button-link" title="Blog">
+                    <a href="https://blog.uint.dev/" class="button-link" title="Blog" aria-label="Blog">
                         <span class="blog-icon"></span>
                     </a>
                 </span>
@@ -34,20 +34,20 @@
         </header>
         <main>
             <section id="about" class="header-margin">
-                <div class="content-title content-title-large">
+                <h1 class="content-title content-title-large">
                     Hi, my name's André.
                     <br>
                     Software engineer based in
                     <br>
                     Europe.
-                </div>
+                </h1>
                 <div class="content-desc content-desc-large">
                     <%= aboutData %>
                 </div>
             </section>
             <div class="dual-section">
                 <section id="projects">
-                    <div class="content-title"><%= project.metadata.title %></div>
+                    <h2 class="content-title"><%= project.metadata.title %></h2>
                     <div class="content-desc"><%= project.metadata.description %></div>
                     <div class="content-block">
                         <div class="card-container">
@@ -68,7 +68,7 @@
                     </div>
                 </section>
                 <section id="blog">
-                    <div class="content-title"><%= blog.metadata.title %></div>
+                    <h2 class="content-title"><%= blog.metadata.title %></h2>
                     <div class="content-desc"><%= blog.metadata.description %></div>
                     <div class="content-block">
                         <div class="card-container">
@@ -88,7 +88,7 @@
             <dialog>
                 <div class="header"></div>
                 <div class="body"></div>
-                <a href="#" class="close">close</a>
+                <button type="button" class="close">close</button>
             </dialog>
         </main>
         <footer>

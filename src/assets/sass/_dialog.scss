@@ -28,7 +28,9 @@ dialog {
         color: rgba(var(--color-secondary), 1);
         border-radius: var(--radius-control);
         background-color: rgba(var(--color-accent), 1);
+        border: none;
         box-sizing: border-box;
+        font-family: inherit;
         padding: 14px 24px;
         font-size: 0.85rem;
         font-weight: 700;
