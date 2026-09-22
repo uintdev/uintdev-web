@@ -5,7 +5,7 @@
     "target": "ESNext",
     "esModuleInterop": true,
     "moduleResolution": "bundler",
-    "types": ["bun-types"],
+    "types": ["bun"],
     "moduleDetection": "force",
     "strict": true,
     "forceConsistentCasingInFileNames": true,
