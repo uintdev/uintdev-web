@@ -2,7 +2,7 @@ import { rspack, type Compilation, type Compiler, type Configuration, type Rspac
 import { minify as htmlMinify, type Options as HtmlMinifyOptions } from "html-minifier-terser";
 import path from "path";
 import { fileURLToPath } from "url";
-import { getTemplateData } from "./src/views/template-data";
+import { getErrorPageTemplateData, getTemplateData } from "./src/views/template-data";
 
 const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
 const browserTargets: string[] = ["chrome >= 120", "firefox >= 120", "safari >= 17"];
@@ -99,7 +99,7 @@ const configBuild: Configuration = {
       template: "./src/views/404.ejs",
       filename: "./404.html",
       inject: false,
-      templateParameters: getTemplateData,
+      templateParameters: getErrorPageTemplateData,
     }),
     new rspack.CssExtractRspackPlugin({ filename: "static/[name].[contenthash:8].css" }),
     new rspack.CopyRspackPlugin({

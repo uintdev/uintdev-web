@@ -98,8 +98,8 @@
                     <% for item in contact { %>
                         <a href="<%= item.url %>" title="<%= item.name %>"><%= item.name %></a>
                     <% } %>
-                    <a href="<%= commit.commitURL %>/commit/<%= commit.commitFull %>" title="View latest commit on GitHub">
-                        <%= commit.commitIDPartial %>
+                    <a href="<%= commit.url %>" title="View latest commit on GitHub">
+                        <%= commit.id %>
                     </a>
                 </span>
             </div>
