@@ -1,12 +1,12 @@
-import { rspack, type Compiler, type Configuration } from "@rspack/core";
-import { minify as htmlMinify } from "html-minifier-terser";
+import { rspack, type Compilation, type Compiler, type Configuration, type RspackPluginInstance } from "@rspack/core";
+import { minify as htmlMinify, type Options as HtmlMinifyOptions } from "html-minifier-terser";
 import path from "path";
 import { fileURLToPath } from "url";
 import { getTemplateData } from "./src/views/template-data";
 
 const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
 const browserTargets: string[] = ["chrome >= 120", "firefox >= 120", "safari >= 17"];
-const htmlMinifyOptions = {
+const htmlMinifyOptions: HtmlMinifyOptions = {
   collapseWhitespace: true,
   removeComments: true,
   removeRedundantAttributes: true,
@@ -16,11 +16,14 @@ const htmlMinifyOptions = {
   minifyJS: true,
 };
 
-const HtmlMinifyPlugin = {
+type HtmlHooks = ReturnType<typeof rspack.HtmlRspackPlugin.getCompilationHooks>;
+type HtmlBeforeEmitData = Parameters<Parameters<HtmlHooks["beforeEmit"]["tapPromise"]>[1]>[0];
+
+const HtmlMinifyPlugin: RspackPluginInstance = {
   apply(compiler: Compiler): void {
-    compiler.hooks.compilation.tap("HtmlMinifyPlugin", (compilation: any): void => {
-      const hooks = rspack.HtmlRspackPlugin.getCompilationHooks(compilation);
-      hooks.beforeEmit.tapPromise("HtmlMinifyPlugin", async (data) => {
+    compiler.hooks.compilation.tap("HtmlMinifyPlugin", (compilation: Compilation): void => {
+      const hooks: HtmlHooks = rspack.HtmlRspackPlugin.getCompilationHooks(compilation);
+      hooks.beforeEmit.tapPromise("HtmlMinifyPlugin", async (data: HtmlBeforeEmitData): Promise<HtmlBeforeEmitData> => {
         data.html = await htmlMinify(data.html, htmlMinifyOptions);
         return data;
       });

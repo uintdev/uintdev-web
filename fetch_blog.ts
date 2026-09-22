@@ -1,5 +1,7 @@
 import path from "path";
 import * as cheerio from "cheerio";
+import type { AnyNode } from "domhandler";
+import type { BlogData, BlogPost } from "./src/types/data";
 
 const BLOG_URL: string = "https://blog.uint.dev/";
 const SELECTOR: string = ".listing .card";
@@ -7,24 +9,7 @@ const POST_LIMIT: number = 5;
 const BLOG_TITLE: string = "Recent posts";
 const BLOG_DESCRIPTION: string = `View all <a href="${BLOG_URL}">here</a>.`;
 
-interface Post {
-  link: string;
-  title: string;
-  description: string;
-  metadata: string;
-}
-
-interface BlogEntryMetadata {
-  title: string;
-  description: string;
-}
-
-interface BlogEntry {
-  metadata: BlogEntryMetadata;
-  posts: Post[];
-}
-
-const blogEntryObject: BlogEntry = {
+const blogEntryObject: BlogData = {
   metadata: {
     title: BLOG_TITLE,
     description: BLOG_DESCRIPTION,
@@ -34,19 +19,19 @@ const blogEntryObject: BlogEntry = {
 
 const filePath: string = path.join("./src/data", "blog.json");
 
-async function fetchPosts(): Promise<Post[]> {
+async function fetchPosts(): Promise<BlogPost[]> {
   const response: Response = await fetch(BLOG_URL, { signal: AbortSignal.timeout(10000) });
   if (!response.ok) throw new Error(`Failed to fetch ${BLOG_URL}: ${response.status} ${response.statusText}`);
   const $: cheerio.CheerioAPI = cheerio.load(await response.text());
-  const cards = $(SELECTOR);
+  const cards: cheerio.Cheerio<AnyNode> = $(SELECTOR);
 
   if (!cards.length) throw new Error(`No elements found with selector '${SELECTOR}'`);
 
   return cards
     .slice(0, POST_LIMIT)
     .toArray()
-    .map((el) => {
-      const card = $(el);
+    .map((el: AnyNode): BlogPost => {
+      const card: cheerio.Cheerio<AnyNode> = $(el);
       return {
         link: new URL(card.attr("href") ?? "", BLOG_URL).href,
         title: card.find(".title").eq(0).text(),

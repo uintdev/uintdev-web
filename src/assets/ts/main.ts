@@ -136,7 +136,7 @@ class DialogController {
     }
 
     dialogElement.close();
-    [".header", ".body"].forEach((sel) => {
+    [".header", ".body"].forEach((sel: string): void => {
       const el: HTMLElement | null = dialogElement.querySelector<HTMLElement>(sel);
       if (el) el.innerHTML = "";
     });
@@ -192,10 +192,10 @@ class Egg {
 
     const audio: HTMLAudioElement = new Audio(this.audioFile);
     audio.volume = 0.6;
-    setTimeout(async () => {
+    setTimeout(async (): Promise<void> => {
       try {
         await audio.play();
-      } catch (e) {
+      } catch (e: unknown) {
         console.warn("Audio playback failed:", e);
       }
     }, this.initAudioDuration);
@@ -210,7 +210,7 @@ class Egg {
     const key: string = event.key.length === 1 ? event.key.toUpperCase() : event.key;
     this.keysPressed.push(key);
 
-    const expected: string = this.keysCombo[this.keysPressed.length - 1];
+    const expected: string | undefined = this.keysCombo[this.keysPressed.length - 1];
     if (!expected || key !== expected) {
       this.keysPressed = [];
       return;
@@ -233,13 +233,13 @@ document.addEventListener("DOMContentLoaded", (): void => {
     // Handle header scroll
     if (target.closest("header .title")) uiController.scrollHandler(event);
     // Handle dialog close
-    if (target.matches("dialog .close")) dialogController.close(event as MouseEvent);
+    if (target.matches("dialog .close")) dialogController.close(event);
   });
 
   try {
     uiController.header();
-    window.addEventListener("scroll", () => uiController.header(), { passive: true });
-  } catch (error) {
+    window.addEventListener("scroll", (): void => uiController.header(), { passive: true });
+  } catch (error: unknown) {
     console.error("Failed to initialize UI components:", error);
   }
 

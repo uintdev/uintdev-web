@@ -1,7 +1,7 @@
 import fs from "fs";
+import type { BlogData, Contact, Meta, ProjectData } from "../types/data";
 
-type TemplateParams = Record<string, any>;
-type JsonObject = Record<string, any>;
+type TemplateParams = Record<string, unknown>;
 
 interface CommitData {
   commitIDPartial: string;
@@ -10,10 +10,10 @@ interface CommitData {
 }
 
 export interface TemplateData {
-  meta: JsonObject;
-  contact: JsonObject[];
-  project: JsonObject;
-  blog: JsonObject;
+  meta: Meta;
+  contact: Contact[];
+  project: ProjectData;
+  blog: BlogData;
   aboutData: string;
   commit: CommitData;
 }
@@ -28,7 +28,7 @@ function readFile(path: string): string {
   }
 }
 
-function readJson<T = JsonObject>(path: string): T {
+function readJson<T>(path: string): T {
   return JSON.parse(readFile(path)) as T;
 }
 
@@ -38,10 +38,10 @@ export function getTemplateData(params: TemplateParams): TemplateParams & Templa
 
   return {
     ...params,
-    meta: readJson("src/data/meta.json"),
-    contact: readJson<JsonObject[]>("src/data/contact.json"),
-    project: readJson("src/data/projects.json"),
-    blog: readJson("src/data/blog.json"),
+    meta: readJson<Meta>("src/data/meta.json"),
+    contact: readJson<Contact[]>("src/data/contact.json"),
+    project: readJson<ProjectData>("src/data/projects.json"),
+    blog: readJson<BlogData>("src/data/blog.json"),
     aboutData: readFile("src/data/about.html"),
     commit: {
       commitIDPartial: gitData.slice(0, 7),
