@@ -17,6 +17,7 @@ interface PackageJson {
 
 export interface TemplateData {
   meta: Meta;
+  previewImage: string;
   contact: Contact[];
   project: ProjectData;
   blog: BlogData;
@@ -93,9 +94,12 @@ export function getErrorPageTemplateData(params: TemplateParams): TemplateParams
 }
 
 export function getTemplateData(params: TemplateParams): TemplateParams & TemplateData {
+  const meta: Meta = readJson<Meta>("src/data/meta.json");
+
   return {
     ...params,
-    meta: readJson<Meta>("src/data/meta.json"),
+    meta,
+    previewImage: new URL(meta.favicon, meta.url).href,
     contact: readJson<Contact[]>("src/data/contact.json"),
     project: readJson<ProjectData>("src/data/projects.json"),
     blog: readJson<BlogData>("src/data/blog.json"),
