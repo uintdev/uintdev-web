@@ -2,7 +2,6 @@
   "name": "uintdev",
   "version": "2.6.0",
   "description": "Main website",
-  "main": "index.ts",
   "type": "module",
   "scripts": {
     "build": "bun run fetch_blog.ts && rspack build",
