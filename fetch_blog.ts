@@ -17,7 +17,6 @@ interface Post {
 interface BlogEntryMetadata {
   title: string;
   description: string;
-  base: string;
 }
 
 interface BlogEntry {
@@ -29,7 +28,6 @@ const blogEntryObject: BlogEntry = {
   metadata: {
     title: BLOG_TITLE,
     description: BLOG_DESCRIPTION,
-    base: BLOG_URL,
   },
   posts: [],
 };
@@ -49,7 +47,7 @@ if (!cards.length) {
 cards.slice(0, POST_LIMIT).each((_, el) => {
   const card = $(el);
   blogEntryObject.posts.push({
-    link: card.attr("href") ?? "#",
+    link: new URL(card.attr("href") ?? "", BLOG_URL).href,
     title: card.find(".title").eq(0).text(),
     description: card.find(".description").eq(0).text(),
     metadata: card.find(".metadata").eq(0).html() ?? "",
