@@ -41,7 +41,7 @@ const configBuild: Configuration = {
   output: {
     path: path.resolve(__dirname, "dist"),
     publicPath: "/",
-    filename: "[name].js",
+    filename: "static/[name].[contenthash:8].js",
     assetModuleFilename: "assets/[name][ext]",
     clean: true,
   },
@@ -101,7 +101,7 @@ const configBuild: Configuration = {
       inject: false,
       templateParameters: getTemplateData,
     }),
-    new rspack.CssExtractRspackPlugin({ filename: "[name].css" }),
+    new rspack.CssExtractRspackPlugin({ filename: "static/[name].[contenthash:8].css" }),
     new rspack.CopyRspackPlugin({
       patterns: [
         { from: "src/assets/data", to: "data/", globOptions: { ignore: ["**/.DS_Store"] } },
