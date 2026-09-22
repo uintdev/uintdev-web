@@ -18,12 +18,7 @@
         <link rel="icon" href="<%= meta.favicon %>">
         <link rel="apple-touch-icon" href="<%= meta.favicon %>">
         <% for tag in htmlRspackPlugin.tags.headTags { %>
-          <% if tag.tagName == "link" { %>
-            <%= toHtml(tag) %>
-          <% } %>
-          <% if tag.tagName == "script" { %>
-            <%= toHtml(tag) %>
-          <% } %>
+          <%= toHtml(tag) %>
         <% } %>
     </head>
     <body>
@@ -78,7 +73,7 @@
                     <div class="content-block">
                         <div class="card-container">
                             <% for post in blog.posts { %>
-                                <a class="card" href="<%= blog.metadata.base + post.link %>">
+                                <a class="card" href="<%= post.link %>">
                                     <div class="blog-info">
                                         <div class="title"><%= post.title %></div>
                                         <div class="description"><%= post.description %></div>
