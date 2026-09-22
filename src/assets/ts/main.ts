@@ -60,7 +60,7 @@ class UIController {
 
     window.scrollTo({
       top: el.offsetTop,
-      behavior: window.matchMedia?.("(prefers-reduced-motion)")?.matches ? "instant" : "smooth",
+      behavior: window.matchMedia("(prefers-reduced-motion)").matches ? "instant" : "smooth",
     });
   }
 
@@ -88,25 +88,6 @@ class UIController {
 }
 
 const uiController: UIController = new UIController();
-
-class EventController {
-  public readonly selector: string = ".card, .button-link";
-
-  /**
-   * Handle click events on interactive elements
-   * @method init
-   * @param event {Event} Click event
-   * @returns {void}
-   */
-  public init(event: Event): void {
-    event.preventDefault();
-
-    const href: string | null = (event.target as HTMLElement).getAttribute("href");
-    if (href) location.href = href;
-  }
-}
-
-const eventController: EventController = new EventController();
 
 class DialogController {
   /**
@@ -249,7 +230,6 @@ document.addEventListener("DOMContentLoaded", (): void => {
   document.addEventListener("click", (event: PointerEvent): void => {
     const target: HTMLElement = event.target as HTMLElement;
 
-    if (target.matches(eventController.selector)) eventController.init(event);
     // Handle header scroll
     if (target.closest("header .title")) uiController.scrollHandler(event);
     // Handle dialog close
