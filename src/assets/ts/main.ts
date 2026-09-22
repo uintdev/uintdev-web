@@ -113,9 +113,9 @@ class DialogController {
       return;
     }
 
-    const escapedBody: string = body.replaceAll('"', "&quot;").replaceAll("\n", "<br>");
+    const bodyHtml: string = body.replaceAll("\n", "<br>");
     dialogElement.querySelector<HTMLElement>(".header")!.innerHTML = title;
-    dialogElement.querySelector<HTMLElement>(".body")!.innerHTML = escapedBody;
+    dialogElement.querySelector<HTMLElement>(".body")!.innerHTML = bodyHtml;
     dialogElement.showModal();
     dialogElement.querySelector<HTMLElement>(".close")?.blur();
   }
