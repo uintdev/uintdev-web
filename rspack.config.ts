@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import { getTemplateData } from "./src/views/template-data";
 
 const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
+const browserTargets: string[] = ["chrome >= 120", "firefox >= 120", "safari >= 17"];
 const htmlMinifyOptions = {
   collapseWhitespace: true,
   removeComments: true,
@@ -48,7 +49,7 @@ const configBuild: Configuration = {
     minimizer: [
       new rspack.SwcJsMinimizerRspackPlugin(),
       new rspack.LightningCssMinimizerRspackPlugin({
-        minimizerOptions: { targets: ["chrome >= 120", "firefox >= 120", "safari >= 17"] },
+        minimizerOptions: { targets: browserTargets },
       }),
     ],
   },
@@ -67,17 +68,12 @@ const configBuild: Configuration = {
                 syntax: "typescript",
               },
             },
+            env: {
+              targets: browserTargets,
+            },
           },
         },
         include: [path.resolve(__dirname, "src")],
-      },
-      {
-        test: /\.html$/,
-        use: [{ loader: "html-loader", options: { minimize: true } }],
-      },
-      {
-        test: /\.(png|jpg)$/,
-        type: "asset/resource",
       },
       {
         test: /\.(svg|woff|woff2|eot|ttf)$/,
@@ -96,11 +92,12 @@ const configBuild: Configuration = {
       inject: false,
       templateParameters: getTemplateData,
     }),
-    new rspack.CssExtractRspackPlugin({ filename: "[name].css", chunkFilename: "[id].css" }),
+    new rspack.CssExtractRspackPlugin({ filename: "[name].css" }),
     new rspack.CopyRspackPlugin({
       patterns: [
-        { from: "src/assets/data", to: "data/" },
+        { from: "src/assets/data", to: "data/", globOptions: { ignore: ["**/.DS_Store"] } },
         { from: "src/assets/pages", to: "./" },
+        { from: "src/assets/img/main/favicon.png", to: "assets/" },
       ],
     }),
     HtmlMinifyPlugin,
