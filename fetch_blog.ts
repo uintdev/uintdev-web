@@ -1,5 +1,4 @@
 import path from "path";
-import axios from "axios";
 import * as cheerio from "cheerio";
 
 const BLOG_URL: string = "https://blog.uint.dev/";
@@ -37,8 +36,9 @@ const blogEntryObject: BlogEntry = {
 
 console.log("Fetching blog post data...");
 
-const { data } = await axios.get(BLOG_URL, { timeout: 10000 });
-const $: cheerio.CheerioAPI = cheerio.load(data);
+const response: Response = await fetch(BLOG_URL, { signal: AbortSignal.timeout(10000) });
+if (!response.ok) throw new Error(`Failed to fetch ${BLOG_URL}: ${response.status} ${response.statusText}`);
+const $: cheerio.CheerioAPI = cheerio.load(await response.text());
 const cards = $(SELECTOR);
 
 if (!cards.length) {
