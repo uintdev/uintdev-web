@@ -14,6 +14,10 @@ header {
 
     &.hide {
         top: calc(0px - var(--header-height) - 1px);
+
+        &:has(:focus-visible) {
+            top: 0;
+        }
     }
 
     .bar {
