@@ -20,7 +20,7 @@
       "name": "Discord Cache Dump",
       "description": "Archival and identification of Chromium cache files from Discord desktop clients",
       "url": "https://github.com/uintdev/Discord-Cache-Dump",
-      "tags": ["cli", "go", "cross-platform"]
+      "tags": ["cli", "go", "forensics"]
     },
     {
       "name": "Email Addr Extract",
