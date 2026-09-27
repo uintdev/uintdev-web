@@ -30,6 +30,15 @@ export interface ProjectData {
   list: Project[];
 }
 
+export interface ProjectCard extends Project {
+  domain: string;
+}
+
+export interface ProjectCardData {
+  metadata: SectionMetadata;
+  list: ProjectCard[];
+}
+
 export interface BlogPost {
   link: string;
   title: string;

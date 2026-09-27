@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import type { BlogData, Contact, Meta, ProjectData } from "../types/data";
+import type { BlogData, Contact, Meta, Project, ProjectCardData, ProjectData } from "../types/data";
 
 type TemplateParams = Record<string, unknown>;
 
@@ -19,7 +19,7 @@ export interface TemplateData {
   meta: Meta;
   previewImage: string;
   contact: Contact[];
-  project: ProjectData;
+  project: ProjectCardData;
   blog: BlogData;
   aboutData: string;
   commit: CommitData;
@@ -70,6 +70,18 @@ function readCommitHash(): string {
   return packedLine.split(" ")[0]!;
 }
 
+function getProjectData(): ProjectCardData {
+  const data: ProjectData = readJson<ProjectData>("src/data/projects.json");
+
+  return {
+    ...data,
+    list: data.list.map((item: Project) => ({
+      ...item,
+      domain: new URL(item.url).hostname.replace(/^www\./, ""),
+    })),
+  };
+}
+
 function getCommitData(): CommitData {
   try {
     const hash: string = readCommitHash();
@@ -101,7 +113,7 @@ export function getTemplateData(params: TemplateParams): TemplateParams & Templa
     meta,
     previewImage: new URL(meta.favicon, meta.url).href,
     contact: readJson<Contact[]>("src/data/contact.json"),
-    project: readJson<ProjectData>("src/data/projects.json"),
+    project: getProjectData(),
     blog: readJson<BlogData>("src/data/blog.json"),
     aboutData: readFile("src/data/about.html"),
     commit: getCommitData(),

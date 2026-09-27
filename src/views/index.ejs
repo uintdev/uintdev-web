@@ -59,12 +59,15 @@
                                 <a href="<%= item.url %>" class="card">
                                     <div class="project-info">
                                         <div class="name"><%= item.name %></div>
-                                        <div class="tag-container">
-                                            <% for tag in item.tags { %>
-                                                <span class="tag"><%= tag %></span>
-                                            <% } %>
-                                        </div>
                                         <div class="description"><%= item.description %></div>
+                                        <div class="metadata">
+                                            <span class="domain"><%= item.domain %></span>
+                                            <span class="tags">
+                                                <% for tag in item.tags { %>
+                                                    <span class="tag"><%= tag %></span>
+                                                <% } %>
+                                            </span>
+                                        </div>
                                     </div>
                                 </a>
                             <% } %>

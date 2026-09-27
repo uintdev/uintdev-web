@@ -39,24 +39,7 @@
             }
         }
 
-        .project-info {
-            .tag-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-                font-size: 0.72rem;
-                margin-top: 12px;
-
-                .tag {
-                    border-radius: var(--radius-tag);
-                    background-color: rgba(var(--color-accent), 0.14);
-                    color: rgba(var(--color-accent), 1);
-                    padding: 5px 10px;
-                    font-weight: 700;
-                }
-            }
-        }
-
+        .project-info,
         .blog-info {
             .metadata {
                 font-size: 0.78rem;
@@ -68,6 +51,24 @@
 
                 .separator {
                     color: rgba(var(--color-primary), 0.25);
+                }
+            }
+        }
+
+        .project-info {
+            .metadata {
+                justify-content: space-between;
+
+                .tags {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 8px;
+
+                    .tag + .tag::before {
+                        content: "•";
+                        margin-right: 8px;
+                        color: rgba(var(--color-primary), 0.25);
+                    }
                 }
             }
         }

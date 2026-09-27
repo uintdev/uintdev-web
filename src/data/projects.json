@@ -8,25 +8,25 @@
       "name": "QRServ",
       "description": "An intuitive application for Android that enables downloading of a file selection over HTTP with the convenience of scanning a QR code",
       "url": "https://github.com/uintdev/qrserv",
-      "tags": ["App", "Kotlin", "Jetpack Compose"]
+      "tags": ["app", "kotlin", "jetpack-compose"]
     },
     {
       "name": "SSD1306 Display RPi",
       "description": "SSD1306 OLED driver in Rust with Raspberry Pi system info display",
       "url": "https://github.com/uintdev/ssd1306-display-rpi",
-      "tags": ["Service", "Rust"]
+      "tags": ["service", "rust"]
     },
     {
       "name": "Discord Cache Dump",
       "description": "Archival and identification of Chromium cache files from Discord desktop clients",
       "url": "https://github.com/uintdev/Discord-Cache-Dump",
-      "tags": ["CLI", "Go"]
+      "tags": ["cli", "go"]
     },
     {
       "name": "Email Addr Extract",
       "description": "High performance email address extraction tool",
       "url": "https://github.com/uintdev/email-addr-extract",
-      "tags": ["CLI", "Rust"]
+      "tags": ["cli", "rust"]
     }
   ]
 }
