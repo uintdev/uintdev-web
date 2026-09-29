@@ -1,5 +1,5 @@
-@use "sass:meta";
 @use "breakpoints";
+@use "cards";
 
 .header-margin {
     margin-top: var(--header-height);
@@ -65,9 +65,5 @@ section {
         margin-bottom: 0;
         font-size: 1.1rem;
         color: rgba(var(--color-primary), 0.8);
-    }
-
-    .content-block {
-        @include meta.load-css("cards");
     }
 }

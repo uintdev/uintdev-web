@@ -9,14 +9,15 @@ header {
     box-sizing: border-box;
     background-color: rgba(var(--color-secondary), 1);
     border-bottom: 1px solid rgba(var(--color-primary), var(--opacity-border));
-    transition: top 0.3s;
+    transition: transform 0.3s;
+    will-change: transform;
     @include mixins.unselectable;
 
     &.hide {
-        top: calc(0px - var(--header-height) - 1px);
+        transform: translateY(calc(0px - var(--header-height) - 1px));
 
         &:has(:focus-visible) {
-            top: 0;
+            transform: none;
         }
     }
 
@@ -55,7 +56,6 @@ header {
 
         .button-link {
             @include mixins.flex-center;
-            @include mixins.unselectable;
             width: var(--header-icon-size);
             height: var(--header-icon-size);
             border-radius: var(--radius-control);

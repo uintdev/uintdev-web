@@ -1,27 +1,37 @@
 class UIController {
-  private headerElement: HTMLElement | null = document.querySelector<HTMLElement>("header");
+  private readonly headerElement: HTMLElement | null = document.querySelector<HTMLElement>("header");
   private headerPast: number = window.scrollY;
   private headerActive: boolean = false;
   private headerHiddenOnLoad: boolean = false;
-  private headerPresent: boolean = true;
   private readonly headerDeadZoneTop: number = 100;
   private readonly headerHideClass: string = "hide";
   private readonly isMobileSafari: boolean =
     !CSS.supports("user-select: none") && !window.matchMedia("(hover: hover)").matches;
 
   /**
-   * Controls header state based on scroll position
-   * @method header
+   * Set initial header state and track scrolling
+   * @method init
    * @returns {void}
    */
-  public header(): void {
-    if (!this.headerPresent || this.overscrollDeadZone()) return;
-
-    if (!this.headerElement) {
+  public init(): void {
+    const header: HTMLElement | null = this.headerElement;
+    if (!header) {
       console.error("Header missing — suspending header UI controller");
-      this.headerPresent = false;
       return;
     }
+
+    this.header(header);
+    window.addEventListener("scroll", (): void => this.header(header), { passive: true });
+  }
+
+  /**
+   * Controls header state based on scroll position
+   * @method header
+   * @param header {HTMLElement} Header element
+   * @returns {void}
+   */
+  private header(header: HTMLElement): void {
+    if (this.overscrollDeadZone()) return;
 
     const y: number = window.scrollY;
     const scrollingUp: boolean = y < this.headerPast;
@@ -29,50 +39,33 @@ class UIController {
 
     if (!this.headerActive && scrollingUp) {
       // Show header when scrolling up
-      this.headerElement.classList.remove(this.headerHideClass);
+      header.classList.remove(this.headerHideClass);
       this.headerActive = true;
     } else if (this.headerActive && scrollingDownPastThreshold) {
       // Hide header when scrolling down past threshold
-      this.headerElement.classList.add(this.headerHideClass);
+      header.classList.add(this.headerHideClass);
       this.headerActive = false;
     } else if (!this.headerHiddenOnLoad && !this.headerActive && y > 0) {
       // Hide header on initial scroll after page load
       this.headerHiddenOnLoad = true;
-      this.headerElement.classList.add(this.headerHideClass);
+      header.classList.add(this.headerHideClass);
     }
 
     this.headerPast = y;
   }
 
   /**
-   * Smooth scroll transition
-   * @method scroll
-   * @param selector {string} HTML element ID or query selector
-   * @returns {void}
-   */
-  public scroll(selector: string): void {
-    const el: HTMLElement | null =
-      document.getElementById(selector) ?? document.querySelector<HTMLElement>(selector);
-    if (!el) {
-      console.error(`Cannot scroll to nonexistent element: ${selector}`);
-      return;
-    }
-
-    window.scrollTo({
-      top: el.offsetTop,
-      behavior: window.matchMedia("(prefers-reduced-motion)").matches ? "instant" : "smooth",
-    });
-  }
-
-  /**
-   * Scroll event handler
-   * @method scrollHandler
+   * Smooth scroll back to the top of the page
+   * @method scrollToTop
    * @param event {Event} Event data
    * @returns {void}
    */
-  public scrollHandler(event: Event): void {
+  public scrollToTop(event: Event): void {
     event.preventDefault();
-    this.scroll("body");
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia("(prefers-reduced-motion)").matches ? "instant" : "smooth",
+    });
   }
 
   /**
@@ -148,7 +141,7 @@ const dialogController: DialogController = new DialogController();
 class Egg {
   private readonly audioFile: string = "data/bg_audio.mp3";
   private readonly initAudioDuration: number = 1000;
-  private keysPressed: string[] = [];
+  private keysMatched: number = 0;
   private readonly keysCombo: string[] = [
     "ArrowUp",
     "ArrowUp",
@@ -192,12 +185,8 @@ class Egg {
 
     const audio: HTMLAudioElement = new Audio(this.audioFile);
     audio.volume = 0.6;
-    setTimeout(async (): Promise<void> => {
-      try {
-        await audio.play();
-      } catch (e: unknown) {
-        console.warn("Audio playback failed:", e);
-      }
+    setTimeout((): void => {
+      audio.play().catch((e: unknown): void => console.warn("Audio playback failed:", e));
     }, this.initAudioDuration);
   }
 
@@ -208,16 +197,9 @@ class Egg {
    */
   initiate = (event: KeyboardEvent): void => {
     const key: string = event.key.length === 1 ? event.key.toUpperCase() : event.key;
-    this.keysPressed.push(key);
+    this.keysMatched = key === this.keysCombo[this.keysMatched] ? this.keysMatched + 1 : 0;
 
-    const expected: string | undefined = this.keysCombo[this.keysPressed.length - 1];
-    if (!expected || key !== expected) {
-      this.keysPressed = [];
-      return;
-    }
-
-    if (this.keysPressed.length === this.keysCombo.length) {
-      this.keysPressed = [];
+    if (this.keysMatched === this.keysCombo.length) {
       document.removeEventListener("keydown", this.initiate);
       this.payload();
     }
@@ -231,17 +213,12 @@ document.addEventListener("DOMContentLoaded", (): void => {
     const target: HTMLElement = event.target as HTMLElement;
 
     // Handle header scroll
-    if (target.closest("header .title")) uiController.scrollHandler(event);
+    if (target.closest("header .title")) uiController.scrollToTop(event);
     // Handle dialog close
     if (target.matches("dialog .close")) dialogController.close(event);
   });
 
-  try {
-    uiController.header();
-    window.addEventListener("scroll", (): void => uiController.header(), { passive: true });
-  } catch (error: unknown) {
-    console.error("Failed to initialize UI components:", error);
-  }
+  uiController.init();
 
   document.addEventListener("keydown", egg.initiate);
 });

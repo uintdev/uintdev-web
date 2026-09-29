@@ -1,6 +1,7 @@
 import { rspack, type Compilation, type Compiler, type Configuration, type RspackPluginInstance } from "@rspack/core";
 import { minify as htmlMinify, type Options as HtmlMinifyOptions } from "html-minifier-terser";
 import path from "path";
+import { optimize as svgOptimize } from "svgo";
 import { fileURLToPath } from "url";
 import { getErrorPageTemplateData, getTemplateData } from "./src/views/template-data";
 
@@ -15,6 +16,13 @@ const htmlMinifyOptions: HtmlMinifyOptions = {
   minifyCSS: true,
   minifyJS: true,
 };
+
+// Strip editor export metadata from SVGs, then URL-encode rather than base64, as it compresses better
+function svgDataUrl(content: Buffer): string {
+  const svg: string = svgOptimize(content.toString(), { multipass: true }).data;
+  const encoded: string = encodeURIComponent(svg).replace(/[!'()*]/g, (c: string): string => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
+  return `data:image/svg+xml,${encoded}`;
+}
 
 type HtmlHooks = ReturnType<typeof rspack.HtmlRspackPlugin.getCompilationHooks>;
 type HtmlBeforeEmitData = Parameters<Parameters<HtmlHooks["beforeEmit"]["tapPromise"]>[1]>[0];
@@ -79,7 +87,12 @@ const configBuild: Configuration = {
         include: [path.resolve(__dirname, "src")],
       },
       {
-        test: /\.(svg|woff|woff2|eot|ttf)$/,
+        test: /\.svg$/,
+        type: "asset/inline",
+        generator: { dataUrl: svgDataUrl },
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf)$/,
         type: "asset/inline",
       },
       {
