@@ -25,10 +25,11 @@
     "css-loader": "^7.1.5",
     "domhandler": "^5.0.3",
     "html-minifier-terser": "^7.2.0",
-    "sass": "^1.105.0",
+    "nanoid": "^6.0.2",
+    "sass": "^1.105.1",
     "sass-loader": "^17.0.1",
     "svgo": "^4.1.0",
     "typescript": "^7.0.2",
-    "wrangler": "^4.143.1"
+    "wrangler": "^4.149.0"
   }
 }
