@@ -37,6 +37,7 @@ section {
         font-size: 1.3rem;
         font-weight: 700;
         margin: 0 0 8px;
+        text-wrap-style: balance;
     }
 
     .content-title-large {
@@ -54,6 +55,7 @@ section {
         margin-bottom: 28px;
         line-height: 1.6;
         color: rgba(var(--color-primary), var(--opacity-muted));
+        text-wrap-style: pretty;
 
         a {
             text-decoration: underline;
