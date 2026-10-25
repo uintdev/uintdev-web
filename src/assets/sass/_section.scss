@@ -54,7 +54,7 @@ section {
     .content-desc {
         margin-bottom: 28px;
         line-height: 1.6;
-        color: rgba(var(--color-primary), var(--opacity-muted));
+        color: var(--color-muted);
         text-wrap-style: pretty;
 
         a {

@@ -21,7 +21,7 @@ dialog {
         font-size: 0.92rem;
         line-height: 1.5;
         margin-bottom: 24px;
-        color: rgba(var(--color-primary), var(--opacity-muted));
+        color: var(--color-muted);
     }
 
     .close {
