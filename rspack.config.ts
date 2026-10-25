@@ -50,6 +50,7 @@ const configBuild: Configuration = {
     path: path.resolve(__dirname, "dist"),
     publicPath: "/",
     filename: "static/[name].[contenthash:8].js",
+    cssFilename: "static/[name].[contenthash:8].css",
     assetModuleFilename: "assets/[name][ext]",
     clean: true,
   },
@@ -97,7 +98,8 @@ const configBuild: Configuration = {
       },
       {
         test: /\.s?css$/,
-        use: [rspack.CssExtractRspackPlugin.loader, "css-loader", "sass-loader"],
+        type: "css/auto",
+        use: ["sass-loader"],
       },
     ],
   },
@@ -114,7 +116,6 @@ const configBuild: Configuration = {
       inject: false,
       templateParameters: getErrorPageTemplateData,
     }),
-    new rspack.CssExtractRspackPlugin({ filename: "static/[name].[contenthash:8].css" }),
     new rspack.CopyRspackPlugin({
       patterns: [
         { from: "src/assets/data", to: "data/", globOptions: { ignore: ["**/.DS_Store"] } },
