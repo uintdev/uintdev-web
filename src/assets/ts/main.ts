@@ -106,33 +106,10 @@ class DialogController {
       return;
     }
 
-    const bodyHtml: string = body.replaceAll("\n", "<br>");
-    dialogElement.querySelector<HTMLElement>(".header")!.innerHTML = title;
-    dialogElement.querySelector<HTMLElement>(".body")!.innerHTML = bodyHtml;
+    dialogElement.querySelector<HTMLElement>(".header")!.textContent = title;
+    dialogElement.querySelector<HTMLElement>(".body")!.textContent = body;
     dialogElement.showModal();
     dialogElement.querySelector<HTMLElement>(".close")?.blur();
-  }
-
-  /**
-   * Close dialog box
-   * @method close
-   * @param event {MouseEvent} Mouse event
-   * @returns {void}
-   */
-  close(event: MouseEvent): void {
-    event.preventDefault();
-
-    const dialogElement: HTMLDialogElement | null = this.dialog;
-    if (!dialogElement) {
-      console.error("Dialog not present while attempting to close");
-      return;
-    }
-
-    dialogElement.close();
-    [".header", ".body"].forEach((sel: string): void => {
-      const el: HTMLElement | null = dialogElement.querySelector<HTMLElement>(sel);
-      if (el) el.innerHTML = "";
-    });
   }
 }
 
@@ -214,8 +191,6 @@ document.addEventListener("DOMContentLoaded", (): void => {
 
     // Handle header scroll
     if (target.closest("header .title")) uiController.scrollToTop(event);
-    // Handle dialog close
-    if (target.matches("dialog .close")) dialogController.close(event);
   });
 
   uiController.init();
