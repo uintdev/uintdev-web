@@ -188,3 +188,7 @@ const egg: Egg = new Egg();
 document.querySelector("header .title")?.addEventListener("click", (event: Event): void => uiController.scrollToTop(event));
 uiController.init();
 document.addEventListener("keydown", egg.initiate);
+// Re-enable transitions once the first styled frame has been drawn
+requestAnimationFrame((): void => {
+  requestAnimationFrame((): void => document.documentElement.classList.remove("loading"));
+});
