@@ -185,15 +185,6 @@ class Egg {
 
 const egg: Egg = new Egg();
 
-document.addEventListener("DOMContentLoaded", (): void => {
-  document.addEventListener("click", (event: PointerEvent): void => {
-    const target: HTMLElement = event.target as HTMLElement;
-
-    // Handle header scroll
-    if (target.closest("header .title")) uiController.scrollToTop(event);
-  });
-
-  uiController.init();
-
-  document.addEventListener("keydown", egg.initiate);
-});
+document.querySelector("header .title")?.addEventListener("click", (event: Event): void => uiController.scrollToTop(event));
+uiController.init();
+document.addEventListener("keydown", egg.initiate);
