@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 import { getErrorPageTemplateData, getTemplateData } from "./src/views/template-data";
 
 const __dirname: string = path.dirname(fileURLToPath(import.meta.url));
-const browserTargets: string[] = ["chrome >= 120", "firefox >= 120", "safari >= 17"];
+const browserTargets: string[] = ["chrome >= 130", "firefox >= 124", "safari >= 17.5"];
 const htmlMinifyOptions: HtmlMinifyOptions = {
   collapseWhitespace: true,
   removeComments: true,
