@@ -45,7 +45,6 @@ header {
             display: block;
             height: 24px;
             width: 24px;
-            background-color: currentColor;
             @include mixins.image-loader("header/logo.svg");
         }
     }
@@ -66,7 +65,6 @@ header {
 
             .blog-icon {
                 @include mixins.image-loader("header/blog.svg");
-                background-color: currentColor;
                 height: 100%;
                 width: 100%;
             }

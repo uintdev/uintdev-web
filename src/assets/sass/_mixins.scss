@@ -1,6 +1,7 @@
 @use "breakpoints";
 
 @mixin image-loader($file) {
+    background-color: currentColor;
     mask-image: url(../img/#{$file});
     mask-repeat: no-repeat;
 }
