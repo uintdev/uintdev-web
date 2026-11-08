@@ -147,6 +147,7 @@ class Egg {
     oscillator.start();
     gain.gain.exponentialRampToValueAtTime(0.00001, end);
     oscillator.stop(end + 0.1);
+    oscillator.onended = (): void => void ctx.close();
   }
 
   /**
