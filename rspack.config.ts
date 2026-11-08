@@ -39,6 +39,14 @@ const HtmlMinifyPlugin: RspackPluginInstance = {
   },
 };
 
+const WatchDataPlugin: RspackPluginInstance = {
+  apply(compiler: Compiler): void {
+    compiler.hooks.afterCompile.tap("WatchDataPlugin", (compilation: Compilation): void => {
+      compilation.contextDependencies.add(path.resolve(__dirname, "src/data"));
+    });
+  },
+};
+
 const configBuild: Configuration = {
   entry: {
     main: "./src/index.ts",
@@ -124,6 +132,7 @@ const configBuild: Configuration = {
       ],
     }),
     HtmlMinifyPlugin,
+    WatchDataPlugin,
   ],
 };
 
