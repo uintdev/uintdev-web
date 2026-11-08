@@ -36,14 +36,14 @@
                 font-size: 0.9rem;
                 line-height: 1.5;
                 margin-top: 10px;
-                color: var(--color-muted);
+                color: rgba(var(--color-primary), 0.72);
                 text-wrap-style: pretty;
             }
 
             .metadata {
                 font-size: 0.78rem;
                 margin-top: 12px;
-                color: rgba(var(--color-primary), 0.5);
+                color: rgba(var(--color-primary), 0.6);
                 display: flex;
                 flex-wrap: wrap;
                 gap: 8px;
