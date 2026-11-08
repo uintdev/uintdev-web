@@ -1,8 +1,7 @@
 class UIController {
   private readonly headerElement: HTMLElement | null = document.querySelector<HTMLElement>("header");
   private headerPast: number = window.scrollY;
-  private headerActive: boolean = false;
-  private headerHiddenOnLoad: boolean = false;
+  private headerActive: boolean = true;
   private readonly headerDeadZoneTop: number = 100;
   private readonly headerHideClass: string = "hide";
   private readonly isMobileSafari: boolean = CSS.supports("-webkit-touch-callout: none");
@@ -48,10 +47,6 @@ class UIController {
       // Hide header when scrolling down past threshold
       header.classList.add(this.headerHideClass);
       this.headerActive = false;
-    } else if (!this.headerHiddenOnLoad && !this.headerActive && y > 0) {
-      // Hide header on initial scroll after page load
-      this.headerHiddenOnLoad = true;
-      header.classList.add(this.headerHideClass);
     }
 
     this.headerPast = y;
