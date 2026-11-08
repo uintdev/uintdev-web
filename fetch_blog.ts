@@ -36,11 +36,17 @@ async function fetchPosts(): Promise<BlogPost[]> {
     .toArray()
     .map((el: AnyNode): BlogPost => {
       const card: cheerio.Cheerio<AnyNode> = $(el);
+      const href: string | undefined = card.attr("href");
+      const title: string = card.find(".title").eq(0).text();
+      const metadata: string | null = card.find(".metadata").eq(0).html();
+
+      if (!href || !title || !metadata) throw new Error("Blog card is missing its href, title, or metadata");
+
       return {
-        link: new URL(card.attr("href") ?? "", BLOG_URL).href,
-        title: escapeHtml(card.find(".title").eq(0).text()),
+        link: new URL(href, BLOG_URL).href,
+        title: escapeHtml(title),
         description: escapeHtml(card.find(".description").eq(0).text()),
-        metadata: card.find(".metadata").eq(0).html() ?? "",
+        metadata,
       };
     });
 }
