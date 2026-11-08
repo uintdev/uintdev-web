@@ -127,7 +127,7 @@ const configBuild: Configuration = {
     new rspack.CopyRspackPlugin({
       patterns: [
         { from: "src/assets/data", to: "data/", globOptions: { ignore: ["**/.DS_Store"] } },
-        { from: "src/assets/pages", to: "./" },
+        { from: "src/assets/pages", to: "./", globOptions: { ignore: ["**/.DS_Store"] } },
         { from: "src/assets/img/main/favicon.png", to: "assets/" },
       ],
     }),
