@@ -13,8 +13,6 @@ const htmlMinifyOptions: HtmlMinifyOptions = {
   removeRedundantAttributes: true,
   removeEmptyAttributes: true,
   removeOptionalTags: true,
-  minifyCSS: true,
-  minifyJS: true,
 };
 
 // Strip editor export metadata from SVGs, then URL-encode rather than base64, as it compresses better
@@ -59,7 +57,6 @@ const configBuild: Configuration = {
     publicPath: "/",
     filename: "static/[name].[contenthash:8].js",
     cssFilename: "static/[name].[contenthash:8].css",
-    assetModuleFilename: "assets/[name][ext]",
     clean: true,
   },
   mode: "production",
