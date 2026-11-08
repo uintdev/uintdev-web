@@ -37,7 +37,12 @@ function readFile(filePath: string): string {
 }
 
 function readJson<T>(filePath: string): T {
-  return JSON.parse(readFile(filePath)) as T;
+  const content: string = readFile(filePath);
+  try {
+    return JSON.parse(content) as T;
+  } catch (e: unknown) {
+    throw new Error(`[Template] failed to parse "${filePath}": ${(e as Error).message}`);
+  }
 }
 
 function findGitDir(): string {
