@@ -5,8 +5,7 @@ class UIController {
   private headerHiddenOnLoad: boolean = false;
   private readonly headerDeadZoneTop: number = 100;
   private readonly headerHideClass: string = "hide";
-  private readonly isMobileSafari: boolean =
-    !CSS.supports("user-select: none") && !window.matchMedia("(hover: hover)").matches;
+  private readonly isMobileSafari: boolean = CSS.supports("-webkit-touch-callout: none");
 
   /**
    * Set initial header state and track scrolling
