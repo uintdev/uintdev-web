@@ -16,3 +16,7 @@ dist
 
 # Blog post data file
 src/data/blog.json
+
+# Wrangler local state
+.wrangler
+.dev.vars*
