@@ -30,9 +30,13 @@ class UIController {
    * @returns {void}
    */
   private header(header: HTMLElement): void {
-    if (this.overscrollDeadZone()) return;
-
     const y: number = window.scrollY;
+
+    if (this.overscrollDeadZone()) {
+      this.headerPast = y;
+      return;
+    }
+
     const scrollingUp: boolean = y < this.headerPast;
     const scrollingDownPastThreshold: boolean = y > this.headerDeadZoneTop && y > this.headerPast;
 
