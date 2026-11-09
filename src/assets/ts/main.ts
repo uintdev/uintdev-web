@@ -6,11 +6,6 @@ class UIController {
   private readonly headerHideClass: string = "hide";
   private readonly isMobileSafari: boolean = CSS.supports("-webkit-touch-callout: none");
 
-  /**
-   * Set initial header state and track scrolling
-   * @method init
-   * @returns {void}
-   */
   public init(): void {
     const header: HTMLElement | null = this.headerElement;
     if (!header) {
@@ -22,12 +17,6 @@ class UIController {
     window.addEventListener("scroll", (): void => this.header(header), { passive: true });
   }
 
-  /**
-   * Controls header state based on scroll position
-   * @method header
-   * @param header {HTMLElement} Header element
-   * @returns {void}
-   */
   private header(header: HTMLElement): void {
     const y: number = window.scrollY;
 
@@ -52,12 +41,6 @@ class UIController {
     this.headerPast = y;
   }
 
-  /**
-   * Smooth scroll back to the top of the page
-   * @method scrollToTop
-   * @param event {Event} Event data
-   * @returns {void}
-   */
   public scrollToTop(event: Event): void {
     event.preventDefault();
     window.scrollTo({
@@ -66,11 +49,6 @@ class UIController {
     });
   }
 
-  /**
-   * Determine if overscroll should be prevented (Safari mobile specific quirk)
-   * @method overscrollDeadZone
-   * @returns {boolean} true if overscroll should be prevented
-   */
   private overscrollDeadZone(): boolean {
     const deadZone: number = this.isMobileSafari ? 110 : 0;
     const scrollable: number = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -81,22 +59,10 @@ class UIController {
 const uiController: UIController = new UIController();
 
 class DialogController {
-  /**
-   * Dialog box element selection
-   * @method dialog
-   * @returns {HTMLDialogElement | null}
-   */
   private get dialog(): HTMLDialogElement | null {
     return document.querySelector<HTMLDialogElement>("dialog");
   }
 
-  /**
-   * Compose a dialog box
-   * @method open
-   * @param title {string} Title of dialog
-   * @param body {string} Body of dialog
-   * @returns {void}
-   */
   open(title: string, body: string): void {
     const dialogElement: HTMLDialogElement | null = this.dialog;
     if (!dialogElement) {
@@ -130,11 +96,6 @@ class Egg {
     "A",
   ];
 
-  /**
-   * Generate audio tone
-   * @method playTone
-   * @returns {void}
-   */
   private playTone(): void {
     const ctx: AudioContext = new AudioContext();
     const oscillator: OscillatorNode = ctx.createOscillator();
@@ -150,11 +111,6 @@ class Egg {
     oscillator.onended = (): void => void ctx.close();
   }
 
-  /**
-   * Run payload
-   * @method payload
-   * @returns {void}
-   */
   private payload(): void {
     dialogController.open("egg", "Here is some audio.");
     this.playTone();
@@ -166,11 +122,6 @@ class Egg {
     }, this.initAudioDuration);
   }
 
-  /**
-   * Handle keyboard input for payload
-   * @method initiate
-   * @returns {void}
-   */
   initiate = (event: KeyboardEvent): void => {
     const key: string = event.key.length === 1 ? event.key.toUpperCase() : event.key;
     this.keysMatched = key === this.keysCombo[this.keysMatched] ? this.keysMatched + 1 : 0;
