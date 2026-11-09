@@ -1,6 +1,6 @@
 @use "breakpoints";
 
-@mixin image-loader($file) {
+@mixin mask-icon($file) {
     background-color: currentColor;
     forced-color-adjust: preserve-parent-color;
     mask-image: url(../img/#{$file});

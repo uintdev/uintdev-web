@@ -45,7 +45,7 @@ header {
             display: block;
             height: 24px;
             width: 24px;
-            @include mixins.image-loader("header/logo.svg");
+            @include mixins.mask-icon("header/logo.svg");
         }
     }
 
@@ -64,7 +64,7 @@ header {
             cursor: pointer;
 
             .blog-icon {
-                @include mixins.image-loader("header/blog.svg");
+                @include mixins.mask-icon("header/blog.svg");
                 height: 100%;
                 width: 100%;
             }
