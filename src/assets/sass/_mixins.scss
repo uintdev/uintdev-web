@@ -2,6 +2,7 @@
 
 @mixin image-loader($file) {
     background-color: currentColor;
+    forced-color-adjust: preserve-parent-color;
     mask-image: url(../img/#{$file});
     mask-repeat: no-repeat;
 }
