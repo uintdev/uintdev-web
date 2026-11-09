@@ -64,5 +64,3 @@ try {
 console.log(`Writing ${blogEntryObject.posts.length} posts to ${filePath}...`);
 await Bun.write(filePath, JSON.stringify(blogEntryObject, null, 2));
 console.log(`Successfully wrote to ${filePath}`);
-
-console.log("Creating build...");
