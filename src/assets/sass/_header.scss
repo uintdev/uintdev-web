@@ -39,10 +39,8 @@ header {
         font-size: 0.95rem;
         font-weight: 700;
         letter-spacing: 0.01em;
-        cursor: pointer;
 
         .logo {
-            display: block;
             height: 24px;
             width: 24px;
             @include mixins.mask-icon("header/logo.svg");
@@ -50,9 +48,6 @@ header {
     }
 
     .options {
-        display: inline-flex;
-        gap: 4px;
-
         .button-link {
             @include mixins.flex-center;
             width: var(--header-icon-size);
@@ -61,7 +56,6 @@ header {
             transition:
                 background-color var(--interactive-transition-speed),
                 color var(--interactive-transition-speed);
-            cursor: pointer;
 
             .blog-icon {
                 @include mixins.mask-icon("header/blog.svg");
