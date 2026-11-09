@@ -3,8 +3,7 @@
 @mixin mask-icon($file) {
     background-color: currentColor;
     forced-color-adjust: preserve-parent-color;
-    mask-image: url(../img/#{$file});
-    mask-repeat: no-repeat;
+    mask: url(../img/#{$file}) no-repeat;
 }
 
 @mixin unselectable {
