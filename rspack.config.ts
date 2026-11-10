@@ -137,6 +137,7 @@ const configBuild: Configuration = {
         { from: "src/assets/data", to: "data/", globOptions: { ignore: ["**/.DS_Store"] } },
         { from: "src/assets/pages", to: "./", globOptions: { ignore: ["**/.DS_Store"] } },
         { from: "src/assets/img/main/favicon.png", to: "assets/" },
+        { from: "src/assets/img/main/preview.png", to: "assets/" },
         { from: "src/assets/img/header/logo.svg", to: "assets/favicon.svg", transform: faviconSvg },
       ],
     }),

@@ -116,7 +116,7 @@ export function getTemplateData(params: TemplateParams): TemplateParams & Templa
   return {
     ...params,
     meta,
-    previewImage: new URL(meta.favicon, meta.url).href,
+    previewImage: new URL(meta.preview, meta.url).href,
     contact: readJson<Contact[]>("src/data/contact.json"),
     project: getProjectData(),
     blog: readJson<BlogData>("src/data/blog.json"),

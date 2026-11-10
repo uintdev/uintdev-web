@@ -6,6 +6,7 @@ export interface Meta {
   url: string;
   favicon: string;
   icon: string;
+  preview: string;
   theme: string;
 }
 

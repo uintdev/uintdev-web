@@ -6,5 +6,6 @@
   "url": "https://uint.dev/",
   "favicon": "/assets/favicon.png",
   "icon": "/assets/favicon.svg",
+  "preview": "/assets/preview.png",
   "theme": "#18182a"
 }
