@@ -4,8 +4,12 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 
     .card {
+        display: block;
         box-sizing: border-box;
         border-radius: var(--radius-card);
         background-color: mixins.fade(elevated, 7%);
@@ -25,6 +29,7 @@
 
             .name,
             .title {
+                margin: 0;
                 font-size: 1.05rem;
                 font-weight: 700;
                 line-height: 1.35;

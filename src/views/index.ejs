@@ -29,11 +29,11 @@
         <header>
             <div class="bar">
                 <a href="#" class="title" title="Title -- scroll back up"><div class="logo"></div><span><%= meta.name %></span></a>
-                <span class="options">
+                <nav class="options">
                     <a href="https://blog.uint.dev/" class="button-link" title="Blog" aria-label="Blog">
                         <span class="blog-icon"></span>
                     </a>
-                </span>
+                </nav>
             </div>
         </header>
         <main>
@@ -53,39 +53,43 @@
                 <section id="projects">
                     <h2 class="content-title"><%= project.metadata.title %></h2>
                     <div class="content-desc"><%= project.metadata.description %></div>
-                    <div class="card-container">
+                    <ul class="card-container">
                         <% for item in project.list { %>
-                            <a href="<%= item.url %>" class="card">
-                                <div class="project-info">
-                                    <div class="name"><%= item.name %></div>
-                                    <div class="description"><%= item.description %></div>
-                                    <div class="metadata">
-                                        <span class="domain"><%= item.domain %></span>
-                                        <span class="tags">
-                                            <% for tag in item.tags { %>
-                                                <span class="tag"><%= tag %></span>
-                                            <% } %>
-                                        </span>
+                            <li>
+                                <a href="<%= item.url %>" class="card">
+                                    <div class="project-info">
+                                        <h3 class="name"><%= item.name %></h3>
+                                        <div class="description"><%= item.description %></div>
+                                        <div class="metadata">
+                                            <span class="domain"><%= item.domain %></span>
+                                            <span class="tags">
+                                                <% for tag in item.tags { %>
+                                                    <span class="tag"><%= tag %></span>
+                                                <% } %>
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
+                                </a>
+                            </li>
                         <% } %>
-                    </div>
+                    </ul>
                 </section>
                 <section id="blog">
                     <h2 class="content-title"><%= blog.metadata.title %></h2>
                     <div class="content-desc"><%= blog.metadata.description %></div>
-                    <div class="card-container">
+                    <ul class="card-container">
                         <% for post in blog.posts { %>
-                            <a class="card" href="<%= post.link %>">
-                                <div class="blog-info">
-                                    <div class="title"><%= post.title %></div>
-                                    <div class="description"><%= post.description %></div>
-                                    <div class="metadata"><%= post.metadata %></div>
-                                </div>
-                            </a>
+                            <li>
+                                <a class="card" href="<%= post.link %>">
+                                    <div class="blog-info">
+                                        <h3 class="title"><%= post.title %></h3>
+                                        <div class="description"><%= post.description %></div>
+                                        <div class="metadata"><%= post.metadata %></div>
+                                    </div>
+                                </a>
+                            </li>
                         <% } %>
-                    </div>
+                    </ul>
                 </section>
             </div>
             <dialog aria-labelledby="dialog-title">
