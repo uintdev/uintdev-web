@@ -38,7 +38,9 @@ async function fetchPosts(): Promise<BlogPost[]> {
       const card: cheerio.Cheerio<AnyNode> = $(el);
       const href: string | undefined = card.attr("href");
       const title: string = card.find(".title").eq(0).text();
-      const metadata: string | null = card.find(".metadata").eq(0).html();
+      const metadataElement: cheerio.Cheerio<AnyNode> = card.find(".metadata").eq(0);
+      metadataElement.find(".separator").remove();
+      const metadata: string | null = metadataElement.html();
 
       if (!href || !title || !metadata) throw new Error("Blog card is missing its href, title, or metadata");
 

@@ -48,31 +48,25 @@
                 font-size: 0.78rem;
                 margin-top: 12px;
                 color: mixins.fade(primary, 60%);
-                display: flex;
-                flex-wrap: wrap;
-                gap: 8px;
-
-                .separator {
-                    color: mixins.fade(primary, 25%);
-                }
             }
         }
 
         .project-info {
             .metadata {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
                 justify-content: space-between;
 
                 .tags {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 8px;
-
-                    .tag + .tag::before {
-                        content: "•";
-                        margin-right: 8px;
-                        color: mixins.fade(primary, 25%);
-                    }
+                    @include mixins.bullet-separated;
                 }
+            }
+        }
+
+        .blog-info {
+            .metadata {
+                @include mixins.bullet-separated;
             }
         }
     }
