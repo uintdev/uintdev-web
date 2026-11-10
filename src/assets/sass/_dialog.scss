@@ -13,9 +13,9 @@
 
 dialog {
     padding: 24px;
-    background-color: rgba(var(--color-surface), 1);
+    background-color: var(--color-surface);
     animation: showDialog var(--interactive-transition-speed) forwards;
-    color: rgba(var(--color-primary), 1);
+    color: var(--color-primary);
     width: 420px;
     max-width: 90%;
     box-sizing: border-box;
@@ -36,9 +36,9 @@ dialog {
     }
 
     .close {
-        color: rgba(var(--color-secondary), 1);
+        color: var(--color-secondary);
         border-radius: var(--radius-control);
-        background-color: rgba(var(--color-accent), 1);
+        background-color: var(--color-accent);
         border: none;
         box-sizing: border-box;
         font-family: inherit;
@@ -52,7 +52,7 @@ dialog {
 
         @media (hover: hover) {
             &:hover {
-                background-color: rgba(var(--color-accent), 0.85);
+                background-color: mixins.fade(accent, 85%);
             }
         }
     }

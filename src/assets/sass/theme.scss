@@ -3,15 +3,14 @@
 :root {
     color-scheme: dark;
 
-    --color-primary: 205, 215, 240;
-    --color-secondary: 24, 24, 42;
-    --color-surface: 34, 33, 57;
-    --color-elevated: 160, 150, 250;
-    --color-accent: 199, 176, 222;
+    --color-primary: rgb(205, 215, 240);
+    --color-secondary: rgb(24, 24, 42);
+    --color-surface: rgb(34, 33, 57);
+    --color-elevated: rgb(160, 150, 250);
+    --color-accent: rgb(199, 176, 222);
 
-    --color-muted: rgba(var(--color-primary), 0.65);
-
-    --opacity-border: 0.1;
+    --color-muted: color-mix(in srgb, var(--color-primary) 65%, transparent);
+    --color-border: color-mix(in srgb, var(--color-primary) 10%, transparent);
 
     --radius-card: 8px;
     --radius-control: 8px;

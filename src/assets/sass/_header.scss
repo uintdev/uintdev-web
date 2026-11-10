@@ -7,8 +7,8 @@ header {
     width: 100%;
     z-index: 11;
     box-sizing: border-box;
-    background-color: rgba(var(--color-secondary), 1);
-    border-bottom: 1px solid rgba(var(--color-primary), var(--opacity-border));
+    background-color: var(--color-secondary);
+    border-bottom: 1px solid var(--color-border);
     transition: transform 0.3s;
     will-change: transform;
     @include mixins.unselectable;
@@ -65,7 +65,7 @@ header {
 
             @media (hover: hover) {
                 &:hover {
-                    background-color: rgba(var(--color-primary), 0.08);
+                    background-color: mixins.fade(primary, 8%);
                 }
             }
         }

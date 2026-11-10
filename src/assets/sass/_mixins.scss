@@ -26,3 +26,7 @@
         width: 90%;
     }
 }
+
+@function fade($color, $opacity) {
+    @return color-mix(in srgb, var(--color-#{$color}) $opacity, transparent);
+}

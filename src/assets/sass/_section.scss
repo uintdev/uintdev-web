@@ -1,5 +1,6 @@
 @use "breakpoints";
 @use "cards";
+@use "mixins";
 
 .header-margin {
     margin-top: var(--header-height);
@@ -20,13 +21,13 @@
         grid-template-columns: 1fr 1fr;
 
         section + section {
-            border-left: 1px solid rgba(var(--color-primary), var(--opacity-border));
+            border-left: 1px solid var(--color-border);
         }
     }
 }
 
 section {
-    border-top: 1px solid rgba(var(--color-primary), var(--opacity-border));
+    border-top: 1px solid var(--color-border);
     padding: 48px var(--gutter);
 
     .content-title {
@@ -55,13 +56,13 @@ section {
 
         a {
             text-decoration: underline;
-            text-decoration-color: rgba(var(--color-primary), 0.3);
+            text-decoration-color: mixins.fade(primary, 30%);
         }
     }
 
     .content-desc-large {
         margin-bottom: 0;
         font-size: 1.1rem;
-        color: rgba(var(--color-primary), 0.8);
+        color: mixins.fade(primary, 80%);
     }
 }

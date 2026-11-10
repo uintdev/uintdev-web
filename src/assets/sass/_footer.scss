@@ -1,10 +1,12 @@
+@use "mixins";
+
 footer {
     width: 100%;
     box-sizing: border-box;
     padding: 32px var(--gutter);
     font-size: 0.85rem;
     color: var(--color-muted);
-    border-top: 1px solid rgba(var(--color-primary), var(--opacity-border));
+    border-top: 1px solid var(--color-border);
 
     .content {
         display: flex;
@@ -14,7 +16,7 @@ footer {
         justify-content: space-between;
 
         .label .heart {
-            color: rgba(255, 120, 120, 1);
+            color: rgb(255, 120, 120);
         }
 
         a {
@@ -22,7 +24,7 @@ footer {
 
             @media (hover: hover) {
                 &:hover {
-                    color: rgba(var(--color-accent), 1);
+                    color: var(--color-accent);
                 }
             }
         }
@@ -36,7 +38,7 @@ footer {
 
             a + a::before {
                 content: "\2022";
-                color: rgba(var(--color-primary), 0.3);
+                color: mixins.fade(primary, 30%);
                 margin-right: 8px;
             }
         }

@@ -8,14 +8,14 @@
     .card {
         box-sizing: border-box;
         border-radius: var(--radius-card);
-        background-color: rgba(var(--color-elevated), 0.07);
+        background-color: mixins.fade(elevated, 7%);
         padding: 20px;
-        color: rgba(var(--color-primary), 1);
+        color: var(--color-primary);
         transition: background-color var(--interactive-transition-speed);
 
         @media (hover: hover) {
             &:hover {
-                background-color: rgba(var(--color-elevated), 0.12);
+                background-color: mixins.fade(elevated, 12%);
             }
         }
 
@@ -35,20 +35,20 @@
                 font-size: 0.9rem;
                 line-height: 1.5;
                 margin-top: 10px;
-                color: rgba(var(--color-primary), 0.72);
+                color: mixins.fade(primary, 72%);
                 text-wrap-style: pretty;
             }
 
             .metadata {
                 font-size: 0.78rem;
                 margin-top: 12px;
-                color: rgba(var(--color-primary), 0.6);
+                color: mixins.fade(primary, 60%);
                 display: flex;
                 flex-wrap: wrap;
                 gap: 8px;
 
                 .separator {
-                    color: rgba(var(--color-primary), 0.25);
+                    color: mixins.fade(primary, 25%);
                 }
             }
         }
@@ -65,7 +65,7 @@
                     .tag + .tag::before {
                         content: "•";
                         margin-right: 8px;
-                        color: rgba(var(--color-primary), 0.25);
+                        color: mixins.fade(primary, 25%);
                     }
                 }
             }
