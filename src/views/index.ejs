@@ -19,7 +19,8 @@
         <meta name="theme-color" content="<%= meta.theme %>">
         <title><%= meta.title %></title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="<%= meta.favicon %>">
+        <link rel="icon" href="<%= meta.favicon %>" type="image/png" sizes="180x180">
+        <link rel="icon" href="<%= meta.icon %>" type="image/svg+xml">
         <link rel="apple-touch-icon" href="<%= meta.favicon %>">
         <% for tag in htmlRspackPlugin.tags.headTags { %>
           <%= toHtml(tag) %>

@@ -16,10 +16,21 @@ const htmlMinifyOptions: HtmlMinifyOptions = {
 };
 
 // Strip editor export metadata from SVGs, then URL-encode rather than base64, as it compresses better
+function optimizeSvg(content: string): string {
+  return svgOptimize(content, { multipass: true }).data;
+}
+
 function svgDataUrl(content: Buffer): string {
-  const svg: string = svgOptimize(content.toString(), { multipass: true }).data;
+  const svg: string = optimizeSvg(content.toString());
   const encoded: string = encodeURIComponent(svg).replace(/[!'()*]/g, (c: string): string => `%${c.charCodeAt(0).toString(16).toUpperCase()}`);
   return `data:image/svg+xml,${encoded}`;
+}
+
+function faviconSvg(content: Buffer): string {
+  const badge: string = content
+    .toString()
+    .replace(/<path /, `<rect x="150" y="300" width="700" height="400" fill="#fff"/><path fill="#151617" `);
+  return optimizeSvg(badge);
 }
 
 type HtmlHooks = ReturnType<typeof rspack.HtmlRspackPlugin.getCompilationHooks>;
@@ -126,6 +137,7 @@ const configBuild: Configuration = {
         { from: "src/assets/data", to: "data/", globOptions: { ignore: ["**/.DS_Store"] } },
         { from: "src/assets/pages", to: "./", globOptions: { ignore: ["**/.DS_Store"] } },
         { from: "src/assets/img/main/favicon.png", to: "assets/" },
+        { from: "src/assets/img/header/logo.svg", to: "assets/favicon.svg", transform: faviconSvg },
       ],
     }),
     HtmlMinifyPlugin,
