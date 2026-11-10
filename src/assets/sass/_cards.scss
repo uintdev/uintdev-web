@@ -9,17 +9,40 @@
     list-style: none;
 
     .card {
+        position: relative;
         display: block;
         box-sizing: border-box;
         border-radius: var(--radius-card);
         background-color: mixins.fade(elevated, 7%);
+        box-shadow: inset 0 0 0 1px transparent;
         padding: 20px;
         color: var(--color-primary);
-        transition: background-color var(--interactive-transition-speed);
+        transition:
+            background-color var(--interactive-transition-speed),
+            box-shadow var(--interactive-transition-speed);
+
+        .arrow {
+            position: absolute;
+            top: 24px;
+            right: 20px;
+            width: 14px;
+            height: 14px;
+            color: mixins.fade(primary, 35%);
+            transition:
+                color var(--interactive-transition-speed),
+                translate var(--interactive-transition-speed);
+            @include mixins.mask-icon("card/arrow.svg");
+        }
 
         @media (hover: hover) {
             &:hover {
                 background-color: mixins.fade(elevated, 12%);
+                box-shadow: inset 0 0 0 1px mixins.fade(elevated, 25%);
+
+                .arrow {
+                    color: var(--color-accent);
+                    translate: 2px -2px;
+                }
             }
         }
 
@@ -30,6 +53,7 @@
             .name,
             .title {
                 margin: 0;
+                padding-right: 28px;
                 font-size: 1.05rem;
                 font-weight: 700;
                 line-height: 1.35;

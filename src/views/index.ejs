@@ -55,6 +55,7 @@
                         <% for item in project.list { %>
                             <li>
                                 <a href="<%= item.url %>" class="card">
+                                    <span class="arrow"></span>
                                     <div class="project-info">
                                         <h3 class="name"><%= item.name %></h3>
                                         <div class="description"><%= item.description %></div>
@@ -79,6 +80,7 @@
                         <% for post in blog.posts { %>
                             <li>
                                 <a class="card" href="<%= post.link %>">
+                                    <span class="arrow"></span>
                                     <div class="blog-info">
                                         <h3 class="title"><%= post.title %></h3>
                                         <div class="description"><%= post.description %></div>
